@@ -165,13 +165,13 @@ Oracle (empresa gigante que hace la MEJOR BBDD RELACIONAL DEL MERCADO) es en par
 1996 JAVA v1.0
 1997 JAVA v1.1
 1998 JAVA v1.2
-1999 JAVA v1.3
-2000 JAVA v1.4
-2002 JAVA v1.5
-2004 JAVA v1.6 \
-2006 JAVA v1.7  > En 5 años, 2 versiones de JAVA
-2009 JAVA v1.8 / 
-2011 JAVA v1.9      En 8 años, 3 versiones de JAVA
+2000 JAVA v1.3
+2002 JAVA v1.4
+2005 JAVA v1.5
+2006 JAVA v1.6 \
+2011 JAVA v1.7  > En 8 años, 2 versiones de JAVA
+2014 JAVA v1.8 / 
+2017 JAVA v1.9    En 11 años, 3 versiones de JAVA
 
 En paralelo, en Java 1.8 -> 1.9 Oracle anuncia que va a cobrar por la JVM: 25$ / Año para particulares y 50$/Core para empresas.
 En este momento, tras conversaciones principalmente con Google, Oracle convirtió la JVM en una ESPEFICACION ABIERTA, y cualquier empresa puede hacer su propia JVM. Hoy en día hay muchas implementaciones de la JVM:
@@ -183,20 +183,21 @@ En este momento, tras conversaciones principalmente con Google, Oracle convirti�
 - ...
 
 Además se lleva el lenguaje a una frecuencia de actualización de 6 meses, y se hace un cambio de nomenclatura en las versiones:
-2011 JAVA v1.9 -> JAVA v9
-2012 JAVA v10
-2012 JAVA v11
-2013 JAVA v12
-2013 JAVA v13
-2014 JAVA v14
-2014 JAVA v15
-2015 JAVA v16
-2015 JAVA v17
-2016 JAVA v18
-2016 JAVA v19
-2017 JAVA v20   
-2018 JAVA v21
-2019 JAVA v22
+2017 JAVA v1.9 -> JAVA v9
+2017 JAVA v10
+2018 JAVA v11
+2018 JAVA v12
+2019 JAVA v13
+2019 JAVA v14
+2020 JAVA v15
+2020 JAVA v16
+2021 JAVA v17
+2021 JAVA v18
+2022 JAVA v19
+2023 JAVA v20   
+2024 JAVA v21
+2025 JAVA v22
+
 ...
 A punto de la 27
 
@@ -211,4 +212,301 @@ Hoy en día JS es el lenguaje de programación MAS USADO DEL MUNDO junto con PYT
 
 # Cómo ha ido evolucionando el mundo del desarrollo de software en empresas
 
-Apps de escritorio -> App Web -> Arquitecturas de microservicios.
+Apps de escritorio / que corrían en 1 ordenador
+- El problema de estas aplicaciones era compartir datos.
+  
+Con la llegada de las redes, comenzamos a crear apps con una arquitectura: cliente-servidor
+- Parte de la app se ejecuta en el cliente
+- Otra parte de la app se ejecuta en el servidor
+
+
+    APP CLIENTE <-------------> APP SERVIDOR
+                  Protocolo (conjunto de normas para que la comunicación se pueda realizar)
+                  Lenguaje de comunicación (lenguaje que entienden tanto el cliente como el servidor)
+
+
+    EMISOR -> MENSAJE (idioma = HTML) -> RECEPTOR (Canal = INTERNET)
+                Protocolo = HTTP
+
+
+Los datos quedan en el servidor, y el cliente se conecta al servidor para acceder a los datos.
+Cuando empezamos con esto, en los servidores lo que teniíamos eran las BBDD, y en las máquinas cliente montábamos toda la aplicación que se encargaba de la gestión de los datos. Eran aplicaciones complejas.
+
+Poco a poco, parte de la lógica de la gestión de los datos se fue trasladando al servidor, y en el cliente se fue dejando solo la parte representar los datos.
+
+Esto empezó a funcionar bien (el llevar trabajos más pesados a los sevridores).
+
+En paralelo con esto, explotó el mundo WEB.
+WEB != INTERNET
+
+INTERNET = Conjunto descentralizado de redes interconectadas que usan un protocolo de comunicación común (TCP/IP) para comunicarse entre sí.
+Me permite conectar máquinas muy alejadas entre sí, y que estén en distintos países, continentes, etc.
+
+WEB = Un servicio que se ofrece sobre INTERNET. La WEB es un servicio que permite acceder a documentos HTML que están en servidores WEB, y que se pueden ver desde un navegador WEB.
+Es uno de los muchos servicios que se ofrecen sobre INTERNET: EMAIL, VOIP, FTP, SSH, etc.
+
+La WEB la crea Tim Berners-Lee en 1990, y en 1993 se hace pública. Lo que define son: HTML + HTTP
+
+    HTML = HyperText Markup Language = Lenguaje de marcado de hipertexto (documentos con enlaces)
+    HTTP = HyperText Transfer Protocol = Protocolo de transferencia de hipertexto (protocolo de comunicación entre cliente y servidor)
+
+En sus orígenes, la WEB funcionaba mediante conjuntos de documentos HTML que estaban en servidores WEB, y que se podían ver desde un navegador WEB. Esos documentos HTML eran estáticos, es decir, no cambiaban. 
+
+Con el tiempo empezamos a querer que esos documentos se pudieran generar bajo demanda: Y EMPEZAMOS A HABLAR DE APLCIACIONES WEB.
+
+    Yo quiero acceder a una web.. y ver MI listado de pedidos, facturas, expedientes...
+    Esas páginas web había que generarlas bajo demanda, con datos actualizados de una BBDD.
+
+    Para eso necesitamos un lenguaje de programación que se ejecute en el servidor, y que genere documentos HTML bajo demanda. 
+
+    Cliente                     Servidor
+    (NAVEGADOR) -------------->
+                 http request    Servidores APP (Apache Tomcat, WAS, WebLogic, JBOSS) -> Programa <--> BBDD
+                <-------------
+                 http response 
+                    (HTML) 
+
+Este modelo funcionó durante muchos años. Hoy en día, está obsoleto. ¿Por qué?
+
+Los tiempos han cambiado. Y hoy en día, los navegadores de Internet NO SON LA FORMA PRINCIPAL DE ACCEDER A DATOS, GESTIONES...
+
+Hoy en día hay muchos frontales de usuario:
+- App Android
+- App iOS
+- Navegador WEB
+- Smart TV
+- Asistentes de voz (siri, ok google, alexa)
+- IVR (Interactive Voice Response) -> Sistemas de atención al cliente por teléfono
+
+HTML Es un lenguaje orientado a la creación de DOCUMENTOS con una repreentación VISUAL:
+- El titulo con fuente arial 12 pt.. en negrita
+- Lista con un margen a la izquierda de 20px
+- Imagen con un tamaño de 200px x 300px
+
+Eso NO SIRVE para una app Android, ni para una app iOS, ni para un asistente de voz, ni para un IVR.
+
+HTML Deja de ser el lenguaje natural para la transmisión de datos. En la industria comenzamos a buscar otros lenguajes que nos permitan transmitir datos de forma más natural, y que no estén orientados a la representación visual de los datos (XML -> JSON)
+Antiguamente las aplicaciones que se ejecutaban en los servidores GENERABAN HTML para mandarlo a un cliente.
+Hoy en día, las aplciaciones que se ejecutan en los servidores GENERAN DATOS (JSON) para mandarlos a un cliente. 
+Si quiero montar una aplicación WEB accesible desde un navegador, lo que hacemos es crear luego programas en JavaScript que se ejecutan en el navegador y que interpretan esos datos (JSON) y generen dentro del propio cliente/navegador HTML.
+
+    CLIENTES                               SERVIDOR
+    Navegador (JS -> HTML) ---> HTTP --->   Servidor APP (Apache Tomcat) -> App (JAVA) -> BBDDs
+    Android App            <--- JSON ----
+    iOS App
+    IVR
+    Asistente de voz
+        ( JSON-> AUDIO)
+
+En paralelo con esto, hace 20-15-10 años, tendíamos a montar en las empresas sistemas MUY GRANDES = MONOLITOS (arquitecturas monolíticas). Queríamos una aplicación / sistema que hiciera DE TODO:
+
+    Animalitos Fermín
+        - Venta de productos para animales de compañía
+        - Citas veterinarías
+        - Peluqueros
+        - Empleados (vacaciones, nóminas)
+
+Estos sistemas tan grandes con el tiempo nos hemos dado cuenta que son muy dificiles de mantener. 
+Cualquier cambio que hacemos en ellos puede tener impacto en cualquier otra parte del sistema.
+
+Con el tiempo hemos aprendido a crear sistemas de otra forma: ARQUITECTURAS DE COMPONENTES DESACOPLADOS.
+Esta forma de trabajo, donde en lugar de hacer un sistema muy grande, lo que hacemos es muchos sistemas muy pequeños, comunicados entre si, dan lugar a aplicaciones MAS SENCILLAS DE MANTENER... y eso es la clave!
+
+---
+
+# Nuestra primera aplicación
+
+Queremos un programa que podamos ejecutar desde una terminal de comandos:
+
+    # Buscar una palabra que existe en el diccionario solicitado
+    c:\> buscarPalabra "melón" "es"
+    La palabra melón existe en el diccionario de español, y significa:
+    - Fruto del melonero
+    - Persona con pocas luces: "Eres un melón!"
+
+    # Buscar una palabra que no existe en el diccionario solicitado
+    c:\> buscarPalabra "melón" "en"
+    La palabra no melón existe en el diccionario de inglés.
+
+    # Buscar una palabra en un diccionario desconocido
+    c:\> buscarPalabra "melón" "elfos"
+    Lo siento, pero no tengo diccionario élfico.
+
+La solución más simple sería montar un único proyecto con 2 diccionarios.
+PERO NO BUSCAMOS LA SOLUCION MAS SIMPLE. BUSCAMOS LA SOLUCION MAS MANTENIBLE!
+Teniendo en cuenta que el programa que hagamos va a evolucionar en el futuro.
+
+- Voy a tener una parte del programa que se encargue de la gestión de DICCIONARIOS/PALABRAS/SIGNIFICADOS
+- Voy a tener otra parte del programa que se encargue de la gestión de la INTERFAZ DE USUARIO (terminal, navegador, app Android, app iOS, asistente de voz...)
+- Cada diccionario va a ser un proyecto independiente, que se pueda añadir o quitar del programa principal sin afectar al resto del programa.
+  Porque además, debe tener su propio ciclo de vida = CONTROL DE VERSIONES
+
+
+  App de diccionarios v2.0.0
+  Diccionario de Español v1.0.0 (10.000 palabras)
+  Diccionario de Inglés v2.1.0  (10.000 palabras)
+
+ 
+
+
+Este programa donde va a guardar los diccionarios, con las palabras y las definiciones?
+- Quizás hoy en día en ficheros de texto...pero el día de mañana podría ser en una BBDD
+Hoy en día, el programa se usa desde una terminal de comandos... pero el día de mañana podría ser desde un navegador WEB, o desde una app Android, o desde un asistente de voz. O desde todos ellos!
+Hoy en día, tengo diccionario de Español y de Inglés... Pero verás que me piden en unos meses el de Alemán, chino...
+
+
+> Un producto de software POR DEFINICION es un producto sujeto a cambios y mantenimiento.
+
+> Un coche POR DEFINICION es un producto sujeto a mantenimiento.
+Al año voy al taller... CAMBIO DE ACEITE!
+
+Para una empresa en problema es lo que llamamos el COSTO DE CICLO DE VIDA (LCC = Life Cycle Cost). Es el coste de tener un producto durante su ciclo de vida.
+
+```java
+public interface SuministradorDeDiccionarios {
+    public boolean tienesDiccionarioDe(String idioma);
+    public Optional<Diccionario> getDiccionario(String idioma);
+}
+
+public interface Diccionario {
+    public String getIdioma();
+    public boolean existe(String palabra);
+    public Optional<List<String>> getSignificados(String palabra);
+    // palabra: "melón" -> ["Fruto del melonero", "Persona con pocas luces: 'Eres un melón!'"]
+    // palabra: "archilococo", que devuelve?
+    // - Lista vacia
+    // - null
+    // - Generase una excepción: NoSuchWordException
+    // Un Optional (Java 1.8) es como una caja. Siempre me dan la caja.,.. pero puede venir rellena o no! A un optional le puedo preguntar: .isEmpty() .isPresent() .get()
+    // Desde JAVA 1.8 es una MUY MALA PRACTICA QUE UNA FUNCION DEVUELVA NULL. Mejor que devuelva un Optional vacio.
+}
+public class SuministradorDeDiccionariosDesdeFichero implements SuministradorDeDiccionarios {
+    public SuministradorDeDiccionariosDesdeFichero(String rutaDirectorioDiccionarios){
+        //...
+    }
+  // Implementación de la interfaz SuministradorDeDiccionarios que lee los datos de un fichero de texto
+}
+public class DiccionarioDesdeFichero implements Diccionario {
+    public DiccionarioDesdeFichero(String rutaFichero){
+        //...
+    }
+  // Implementación de la interfaz Diccionario que lee los datos de un fichero de texto
+}  
+public class DiccionarioEnBBDD implements Diccionario {
+    public DiccionarioDesdeFichero(String cadenaConexionABBDD, String usuario, String password){
+        //...
+    }
+  // Implementación de la interfaz Diccionario que lee los datos de un fichero de texto
+}  
+
+
+
+
+
+```
+```java
+
+//C:\> java AppDiccionarios "melón" "es"
+
+public class AppDiccionarios{
+    public static void main(String[] args){
+        String palabra = args[0];
+        String idioma = args[1];
+        ProcesadorDePeticiones procesador = new ProcesadorDePeticiones();
+        procesador.procesarPeticion(idioma, palabra);
+    }
+}
+
+
+public class ProcesadorDePeticiones{
+
+    public void procesarPeticion(String idioma, String palabra) {
+        SuministradorDeDiccionarios suministrador;
+        if(suministrador.tienesDiccionarioDe(idioma)){
+            Diccionario miDiccionaro = suministrador.getDiccionario(idioma);
+            if (miDiccionaro.existe(palabra)){
+                List<String> significados = miDiccionaro.getSignificados(palabra);
+                System.out.println("La palabra " + palabra + " existe en el diccionario de " + idioma + ", y significa:");
+                for (String significado : significados){
+                    System.out.println("- " + significado);
+                }
+            } else {
+                System.out.println("La palabra " + palabra + " no existe en el diccionario de " + idioma + ".");
+            }
+        }else{
+            System.out.println("Lo siento, pero no tengo diccionario " + idioma + ".");
+        }
+    }
+}
+
+public interface SuministradorDeDiccionarios{
+    public boolean tienesDiccionarioDe(String idioma);
+    public Diccionario getDiccionario(String idioma);
+}
+
+public interface Diccionario{
+    public boolean existe(String palabra);
+    public List<String> getSignificados(String palabra);
+}
+
+
+
+
+
+
+
+public class SuministradorDeDiccionariosDesdeBBDD implements SuministradorDeDiccionarios{
+    public SuministradorDeDiccionariosDesdeBBDD(String rutaDirectorioDiccionarios){
+        //...
+    }
+    public boolean tienesDiccionarioDe(String idioma){
+        //...
+    }
+    public Diccionario getDiccionario(String idioma){
+        //...
+    }
+}
+public class DiccionarioDesdeBBDD implements Diccionario{
+    public DiccionarioDesdeBBDD(String rutaFichero){
+        //...
+    }
+    public boolean existe(String palabra){
+        //...
+    }
+    public List<String> getSignificados(String palabra){
+        //...
+    }
+}
+```
+
+Hay un programador muy famoso llamado Edgar Dijkstra. En el año 1971 ganó un premio llamado TURING AWARD. Es el premio más importante que puede recibir un programador. En su discurso de aceptación del premio, dijo algo que se ha hecho muy famoso:
+THE HUMBLE PROGRAMMER.
+De ese artíkculo salió uno de los principios más famosos del mundo del desarrollo de software: SOC: Separation of Concerns = Separación de preocupaciones. Cuando hago un trozo de un programa, me ocupo de ese trozo del programa... y me olvido de lo demás... ESE SERA OTRO PROBLEMA!
+
+
+
+```txt
+amanecer=Salir el sol
+manzana=Fruto del manzano
+melón=Fruto del melonero|Persona con pocas luces: "Eres un melón!"
+zapato=Calzado que cubre el pie
+```
+
+
+
+
+
+---
+
+---
+
+# Versionado SEMANTICO
+
+    vA.B.C
+
+                ¿Cuándo suben?
+    A   MAJOR   Cuando se quita una funcionalidad (BREAKING CHANGE): Cambio que rompe compatibilidad
+    B   MINOR   Cuando metemos nueva funcionalidad
+                O cuando marcamos una funcionalidad como obsoleta (deprecated)
+    C   PATCH   Si se arreglan BUGS/defectos del producto
+
