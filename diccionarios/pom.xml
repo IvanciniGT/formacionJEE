@@ -19,6 +19,9 @@
     <description>Proyecto de ejemplo para trabajar con diccionarios en Java</description>
     <url>http://www.curso.com/diccionarios</url>
 
+    <packaging>jar</packaging> <!-- Formato de empaquetado del proyecto: jar, war, ear -->
+    <!-- Hoy en día prácticamente solo trabajamos con archivos .jar... Y ES EL VALOR POR DEFECTO-->
+
     <!--
     Propiedades de configuración = VARIABLES CON VALORES QUE REUSAMOS DENTRO DE ESTE ARCHIVO
     -->
@@ -37,7 +40,7 @@
     <dependencies>
     </dependencies>
     -->
-    
+
     <!--
     PLUGINS = LAS HERRAMIENATS QUE USARA MAVEN PARA HACER LOS TRABAJOS
     Todo trabajo que hace maven es realizado mediante un plugin.
