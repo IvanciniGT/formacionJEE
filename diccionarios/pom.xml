@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 
+    Coordenadas del proyecto = DATOS QUE IDENTIFICAN EL PROYECTO
+    -->
+    <groupId>com.curso</groupId>
+    <artifactId>diccionarios</artifactId>
+    <version>1.0.0</version>
+
+    <!--
+    Metadatos adicionales del proyecto
+    -->
+    <name>Aplicación de diccionarios</name>
+    <description>Proyecto de ejemplo para trabajar con diccionarios en Java</description>
+    <url>http://www.curso.com/diccionarios</url>
+
+    <!--
+    Propiedades de configuración = VARIABLES CON VALORES QUE REUSAMOS DENTRO DE ESTE ARCHIVO
+    -->
+    <properties>
+        <!-- Versión de Java que se utiliza para escribir el código -->
+        <maven.compiler.source>21</maven.compiler.source> 
+        <!-- Versión de Java que se utiliza para compilar -->
+        <maven.compiler.target>21</maven.compiler.target>
+        <!-- Otras propiedades que ya iremos escribiendo-->
+    </properties>
+
+    <!--
+    DEPENDENCIAS = LIBRERIAS QUE NUESTRO PROYECTO NECESITA
+    -->
+    <!--
+    <dependencies>
+    </dependencies>
+    -->
+    
+    <!--
+    PLUGINS = LAS HERRAMIENATS QUE USARA MAVEN PARA HACER LOS TRABAJOS
+    Todo trabajo que hace maven es realizado mediante un plugin.
+    Por defecto MAVEN lleva ya configurados unos 10 plugins:
+    - Para compilar el código
+    - Para ejecutar los tests
+    - Para empaquetar el proyecto
+    - ...
+    Pero yo puedo activar más plugins y configurarlos a mi gusto.
+    -->
+
+    <!--
+    <build>
+        <plugins>
+        </plugins>
+    </build>
+    -->
+</project>
