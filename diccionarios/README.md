@@ -161,3 +161,22 @@ El programa ARRANCA y entonces?
         - Le pide al componente InterfazDeUsuario que muestre los significados de la palabra
   
 - Le pide al componente InterfazDeUsuario que muestre el mensaje de despedida.
+
+---
+
+# Diseño del sistema
+
+    Aplicacion 
+        |
+        +----> InterfazDeUsuario            <----- InterfazDeUsuarioConsola
+        |                                   <----- InterfazDeUsuarioDeEscritorio
+        |
+        +----> SuministradorDeDiccionarios  <----- SuministradorDeDiccionariosEnFicheros
+        |           |                       <----- SuministradorDeDiccionariosEnBBDD
+        |           V
+        +----> Diccionario                  <----- DiccionarioEnFichero
+                                            <----- DiccionarioEnBBDD
+                ^^^^^^^                                 ^^^^^
+              Interfaces                          Implementaciones
+            
+            - Al ser interfaces, podremos reemplazar las implementaciones de cada componente fácilmente, sin afectar al resto del sistema.
