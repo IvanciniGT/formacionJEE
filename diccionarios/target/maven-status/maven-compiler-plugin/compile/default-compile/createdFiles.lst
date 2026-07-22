@@ -1,0 +1,9 @@
+InterfazDeUsuario.class
+SuministradorDeDiccionariosEnFicheros.class
+Aplicacion.class
+Diccionario.class
+SuministradorDeDiccionarios.class
+SuministradorDeDiccionariosFactory.class
+InterfazDeUsuarioConsola.class
+DiccionarioEnFichero.class
+InterfazDeUsuarioFactory.class

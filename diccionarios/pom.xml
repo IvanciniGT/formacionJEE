@@ -36,10 +36,25 @@
     <!--
     DEPENDENCIAS = LIBRERIAS QUE NUESTRO PROYECTO NECESITA
     -->
-    <!--
+    
     <dependencies>
+        <!-- Dependencia de JUnit 5 (jupiter) para pruebas unitarias -->
+        <!-- Primero el API: Interfaces-->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.0</version>
+            <scope>test</scope> <!-- Solo usamos estas librerias para pruebas. No queremos que se distribuyan con nuestro producto. -->
+        </dependency>
+        <!-- Segundo el Engine: Implementación (Clases) -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-    -->
+    
 
     <!--
     PLUGINS = LAS HERRAMIENATS QUE USARA MAVEN PARA HACER LOS TRABAJOS
