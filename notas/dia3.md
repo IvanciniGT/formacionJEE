@@ -22,3 +22,34 @@ Esa clase nos permite guardar en memoria un conjunto de datos de tipo T, a los q
 El problema es que la tabla guarda REFERENCIAS (PUNTEROS) a los objetos de tipo T, y si esos objetos son muy grandes, la memoria RAM se puede llenar muy rápido.
 
 Hay una clase llamada WeakHashMap<K,T> que tiene el mismo comportamiento que HashMap<K,T>, pero que permite al recolector de basura de JAVA eliminar los objetos de tipo T cuando no quede memoria RAM disponible. Es el tipo de objeto que necesitamos cuando montamos una cache.
+
+# Principios en el mundo del software
+
+- SoC (Separation of Concerns) Separación de preocupaciones. 
+
+> CUANDO ESTOY CREANDO UN COMPONENTE, ME CENTRO EN ESE COMPONENTE, y me olvido de los demás.
+
+- DRY (Don't Repeat Yourself) No te repitas.
+
+> CUANDO ESTOY CREANDO UN COMPONENTE, SI HAY CODIGO QUE YA EXISTE EN OTRO COMPONENTE, O DENTRO DEL MISMO, NO LO VUELVO A ESCRIBIR, SINO QUE LO REUTILIZO.
+
+Hay además 5 principios muy importantes que se conocen como SOLID.
+
+Puedo respetarlos o no. Es mi decisión. Lo que tengo garantizado es que si los respeto, mi código será más fácil de mantener y evolucionar.
+- S - SRP: Single Responsibility Principle. Principio de responsabilidad única.
+- O - OCP: Open/Closed Principle. Principio de abierto/cerrado.
+- L - LSP: Liskov Substitution Principle. Principio de sustitución de Liskov.
+- I - ISP: Interface Segregation Principle. Principio de segregación de interfaces.
+- D - DIP: Dependency Inversion Principle. Principio de inversión de dependencias.
+
+    Un componente de alto nivel no debe depender de IMPLEMENTACIONES CONCRETAS de componentes de bajo nivel, sino que ambos deben depender de abstracciones (interfaces).
+
+        Aplicacion   -> InterfazDeUsuario
+                            ^
+                            |
+                      InterfazDeUsuarioConsola
+
+Para resolver esto, la forma guay Y LA QUE SE USA HOY EN DIA es aplicar
+lo que se llama un patrón de INYECCION DE DEPENDENCIAS (SPRING)
+
+Antes, usábamos otros patrones. Siguen siendo válidos... pero son más trabajosos que la inyección de dependencias. En concreto, en nuestro ejemplo, vamos a comenzar usando un Patrón Factoria (Factory Pattern).

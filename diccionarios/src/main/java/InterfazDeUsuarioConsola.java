@@ -3,6 +3,12 @@ import java.util.Optional;
 
 public class InterfazDeUsuarioConsola implements InterfazDeUsuario {
 
+    private final String[] argumentosDeLaAplicacion;
+
+    public InterfazDeUsuarioConsola(String[] args) {
+        this.argumentosDeLaAplicacion = args;
+    }
+
     public void mostrarMensajeBienvenida(){
         System.out.println("Aplicación de Diccionarios v1.1.0" ); // Imprimir en la consola. En el canal estandar de salida del proceso/aplicación.
     }
@@ -32,9 +38,19 @@ public class InterfazDeUsuarioConsola implements InterfazDeUsuario {
     }
 
     public Optional<String> recuperarLaPalabraSolicitadaPorElUsuario(){
-
+        if(argumentosDeLaAplicacion.length < 1) {
+            return Optional.empty();
+        }else {
+            return Optional.of(argumentosDeLaAplicacion[0]);
+        }
     }
+
     public Optional<String> recuperarElIdiomaSolicitadoPorElUsuario(){
-
+        if(argumentosDeLaAplicacion.length < 2) {
+            return Optional.empty();
+        }else {
+            return Optional.of(argumentosDeLaAplicacion[1]);
+        }
     }
+
 }
