@@ -5,8 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 public class SuministradorDeDiccionariosEnFicheros implements SuministradorDeDiccionarios {
 
@@ -21,7 +22,9 @@ public class SuministradorDeDiccionariosEnFicheros implements SuministradorDeDic
         if(cacheDeDiccionarios.containsKey(idioma)) {
             return true;
         } else {
-            return ficheroDelDiccionarioParaElIdioma(idioma).exists();
+            // Si el recurso existe en el classpath, getResource nos devuelve su URL.
+            // Si no existe, nos devuelve null. Ese null es nuestro "no lo tengo".
+            return cargadorDeClases().getResource(rutaDelRecursoParaElIdioma(idioma)) != null;
         }
     }
 
@@ -40,17 +43,18 @@ public class SuministradorDeDiccionariosEnFicheros implements SuministradorDeDic
     }
     
     private void cargarFicheroDeDiccionarioEnCache(String idioma){
-        // Lo primero que necesito es el fichero de texto que contiene el diccionario de ese idioma.
-        File diccionario = ficheroDelDiccionarioParaElIdioma(idioma);
-        // Al leer el fichero puede haber problemas:
-        // - Permisos
+        // Lo primero que necesito es el flujo (stream) de bytes del recurso que contiene el diccionario de ese idioma.
+        // Al leer el recurso puede haber problemas:
         // - El archivo por dentro no tiene el formato que esperamos
         // No debería pasar este problema. NUNCA.
         // Si pasa, es un problema de configuración o un problema de desarrollo del diccionario (BUG)
         // Genero una Excepcion (ALGO EXCEPCIONAL! que no debería pasar... y además que a priori no tengo forma de saber si va a ocurrir)
         BufferedReader lectorDeLineas = null;
         try{ // Intenta hacer este trabajo que vamos aponer dentro de las {}
-            lectorDeLineas = new BufferedReader(new FileReader(diccionario));
+            // Abrimos el recurso como un stream (funciona igual estando suelto en disco o dentro de un .jar).
+            InputStream flujoDelDiccionario = cargadorDeClases().getResourceAsStream(rutaDelRecursoParaElIdioma(idioma));
+            // Leemos SIEMPRE en UTF-8, para que las tildes y la ñ se lean correctamente (melón, español...).
+            lectorDeLineas = new BufferedReader(new InputStreamReader(flujoDelDiccionario, StandardCharsets.UTF_8));
             String linea;
             Map<String, List<String>> tablaDePalabrasYSignificados = new HashMap<>();
             while((linea = lectorDeLineas.readLine()) != null) { // Cuando no haya más lineas nos devuelve null y paramos
@@ -78,10 +82,16 @@ public class SuministradorDeDiccionariosEnFicheros implements SuministradorDeDic
         }
     }
     
-    private File ficheroDelDiccionarioParaElIdioma(String idioma){
-        return new File(carpetaDeLosDiccionarios + File.separator + idioma + ".txt");
-                                                // Este File.separator nos da el separador del sistema operativo donde se está ejecutando la aplicación: / \ ...
+    private String rutaDelRecursoParaElIdioma(String idioma){
+        return carpetaDeLosDiccionarios + "/" + idioma + ".txt";
+        // OJO: dentro del classpath (y del .jar) el separador SIEMPRE es "/", nunca File.separator.
+        // Un .jar es un zip y sus rutas internas usan "/" en cualquier sistema operativo.
     } // DRY = Don't Repeat Yourself. No repetir código. Si hay un trozo de código que se repite, lo metemos en una función y la llamamos desde los distintos sitios donde se repite.
+
+    private ClassLoader cargadorDeClases(){
+        // El cargador de clases sabe encontrar recursos que estén en el classpath (sueltos o dentro del .jar).
+        return SuministradorDeDiccionariosEnFicheros.class.getClassLoader();
+    }
     
     // La app que estoy montando solo busca una palabra en un diccionario... y acaba.
     // Desde el punto de vista del suministrador eso no es relevante.

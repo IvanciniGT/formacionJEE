@@ -53,3 +53,56 @@ Para resolver esto, la forma guay Y LA QUE SE USA HOY EN DIA es aplicar
 lo que se llama un patrón de INYECCION DE DEPENDENCIAS (SPRING)
 
 Antes, usábamos otros patrones. Siguen siendo válidos... pero son más trabajosos que la inyección de dependencias. En concreto, en nuestro ejemplo, vamos a comenzar usando un Patrón Factoria (Factory Pattern).
+
+## CLASSPATH de java
+
+Cuando java (la máquina virtual) ejecuta un programa, necesita saber dónde están los ficheros .class que contienen el código de los componentes que forman parte del programa.
+
+Lo buscan en los directorios que se le indiquen en el CLASSPATH. El CLASSPATH es una variable de entorno del sistema operativo.
+
+Conceptualmente es similar al PATH.
+Ayer al instalar JAVA y MAVEN, cambiamos la variable de entorno PATH para que el sistema operativo pueda encontrar los ejecutables de JAVA y MAVEN.
+
+Esta variable no se usa solo para CLASES.
+Tambien la podemos usar para otro tipo de recursos, como por ejemplo ficheros de propiedades, ficheros de configuración, o nuestros diccionarios.
+
+---
+
+# El programa está acabado. Ahora toca probarlo y ver si funciona.
+
+PERO ... NO VAMOS A PROBAR NOSOTROS EL PROGRAMA.
+Nos llevaría mucho tiempo y además no es fiable, me puedo equivocar.
+
+Además:
+- A este programa le haremos haciendo cambios en el futuro.
+  Cada vez que hagamos un cambio, tendremos que volver a probar el programa para ver si sigue funcionando correctamente.
+  Y esto implicará no hacer solo 1 prueba, sino muchas pruebas, para ver si TODO sigue funcionando correctamente.
+
+Las pruebas manuales... que antes se hacían mucho, llevaban mucho tiempo.
+
+Hoy en día las automatizamos.
+Esto es algo OBLIGATORIO HOY EN DIA EN LAS EMPRESAS.
+
+Cualquier empresa que produce software, antes de que el software pase a producción, tiene programas (SONARQUBE) que revisan el código y revisan que al menos haya pruebas automatizadas que revisen en torno al 80-90% de las líneas de código (A ESTO SE LE LLAMA COBERTURA DE PRUEBAS).
+
+Si no se llega a ese porcentaje, el software no pasa a producción.
+Y ESE TRABAJO ESTA AUTOMATIZADO, NO LO HACE UN HUMANO.
+
+Es decir, no tengo a quién llorar!
+
+Básicamente se trata de hacer un programa que pruebe nuestro programa. 
+De hecho lo que hacemos serán decenas de programas que vayan probando cada parte de nuestro programa.
+
+De nada me vale hacer una prueba que pruebe la aplicación entera
+Al menos inicialmente no me vale de nada.
+Si la prueba falla, no sabré qué parte/componente de la aplicación ha fallado.
+
+Queremos ir probando cada componente de la aplicación por separado, y luego ir probando la integración de los componentes entre sí.
+
+Para hacer estas pruebas utomatizadas nos apoyamos en Librerías de pruebas unitarias. En JAVAm la más conocida es JUnit.
+
+Es una librería que NO VIENE CON JAVA, sino que hay que descargarla e instalarla. Realmente NOSOTROS NO VAMOS A HACERLO. Ese trabajo se lo vamos a pedir a MAVEN, que una de las cosas que hace es descargar e instalar librerías de terceros, como JUnit (GESTIONAR DEPENDENCIAS).
+
+De JUnit hoy en día usamos la versión 5, que es la más moderna y potente. Pero hay que tener cuidado, porque hay muchos ejemplos en internet de JUnit 4, que es una versión antigua y obsoleta.
+
+Vamos a ir al fichero pom.xml (el fichero de configuración de MAVEN para nuestro proyecto) y vamos a añadir la dependencia de JUnit 5.

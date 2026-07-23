@@ -67,10 +67,43 @@
     Pero yo puedo activar más plugins y configurarlos a mi gusto.
     -->
 
-    <!--
     <build>
         <plugins>
+            <!--
+            Plugin para EJECUTAR la aplicación desde Maven.
+            Nos permite lanzar el método main de nuestra clase Aplicacion con:
+                mvn exec:java
+            Y pasarle argumentos (palabra e idioma) con -Dexec.args="melón es"
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <!-- Clase que contiene el método main que queremos ejecutar -->
+                    <mainClass>Aplicacion</mainClass>
+                </configuration>
+            </plugin>
+
+            <!--
+            Plugin que EMPAQUETA el proyecto en un .jar.
+            Maven ya lo trae, pero lo configuramos para escribir en el MANIFEST
+            del jar cuál es la clase principal (Main-Class). Así podremos lanzar:
+                java -jar target/diccionarios-1.0.0.jar palabra idioma
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <!-- Clase con el método main que se ejecutará con java -jar -->
+                            <mainClass>Aplicacion</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-    -->
 </project>

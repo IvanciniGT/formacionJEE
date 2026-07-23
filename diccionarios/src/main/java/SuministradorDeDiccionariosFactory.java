@@ -1,15 +1,12 @@
 public class SuministradorDeDiccionariosFactory {
 
     public static SuministradorDeDiccionarios dameSuministradorDeDiccionarios(){
-        // Vamos a pedir a java que busque una carpeta llamada "diccionarios"
-        // en el classpath de la aplicación:
-        String carpetaDeDiccionarios = SuministradorDeDiccionariosFactory.class
-                                                                        .getClassLoader() // Dame el cargador de clases (el que ha leido esta clase del disco duro)
-                                                                        .getResource("diccionarios") // Busca una carpeta en esa misma ruta llamada "diccionarios"
-                                                                        .getPath(); // Y dame la ruta como un texto.
-        // El archivo SuministradorDeDiccionarios.java no está en la misma carpeta que los diccionarios.
-        // Pero el compilado (SuministradorDeDiccionarios.class) sí está en la misma carpeta que los diccionarios.
-        // Y esa es la clase que se carga! No el .java, sino el .class. Y ese .class sí está en la misma carpeta que los diccionarios.
-        return new SuministradorDeDiccionariosEnFicheros(carpetaDeDiccionarios);
+        // Los diccionarios son RECURSOS que viven en el classpath, dentro de una carpeta "diccionarios".
+        // NO le damos una ruta de disco (un File), sino el nombre de la carpeta de recursos.
+        // El suministrador los leerá como "streams" (getResourceAsStream), de forma que funcione igual:
+        // - En el IDE y con "mvn exec:java" (los .class y los .txt están sueltos en target/classes)
+        // - Y con "java -jar" (los .class y los .txt están comprimidos DENTRO del .jar)
+        // Un File NO sabe leer dentro de un .jar; un stream sí.
+        return new SuministradorDeDiccionariosEnFicheros("diccionarios");
     }
 }
