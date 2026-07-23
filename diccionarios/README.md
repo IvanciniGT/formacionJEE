@@ -180,3 +180,9 @@ El programa ARRANCA y entonces?
               Interfaces                          Implementaciones
             
             - Al ser interfaces, podremos reemplazar las implementaciones de cada componente fácilmente, sin afectar al resto del sistema.
+
+# Ejecución de la aplicación:
+
+c:\> mvn package
+c:\> java -jar target/diccionarios-1.1.0.jar "melón" "es"
+
