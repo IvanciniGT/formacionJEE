@@ -13,6 +13,7 @@ public class SuministradorDeDiccionariosFactory {
         // - Y con "java -jar" (los .class y los .txt están comprimidos DENTRO del .jar)
         // Un File NO sabe leer dentro de un .jar; un stream sí.
         //return new SuministradorDeDiccionariosEnFicheros("diccionarios");
-        return new SuministradorDeDiccionariosEnServicioWeb("http://localhost:8080/diccionarios");
+        // La ruta base es SOLO el host; las clases cliente ya añaden "/diccionarios/..."
+        return new SuministradorDeDiccionariosEnServicioWeb("http://localhost:8080");
     }
 }
