@@ -197,7 +197,7 @@ HTTP es un protocolo síncrono unidireccional. Es decir:
 Otra cosa. Cuando mandamos algo por HTTP, tenemos siempre 3 partes:
     - URL (dirección del servidor a la que hago la petición)
     - HEADERS (ETIQUETAS)
-    - MENSAJE (BODY)
+    - MENSAJE (BODY) PAYLOAD
 
 Imaginad una petición como un envío que hago por correos. Le quiero mandar algo a mi primo.
 - Lo que sea que mando, lo meto en una CAJA (BODY)
@@ -417,7 +417,7 @@ En la URL que vamos a usar, tendremos varias partes:
     - puerto: 443 (para trabajar con https)
   
   Lo que no va a cambiar es la RUTA.
-  Para nuestra aplicación vamos a definir las siguientes RUTAs:
+  Para nuestra aplicación vamos a definir las siguientes RUTAs: ENDPOINTs
 
     GET + /diccionarios/<idioma>
       En nuestra máquina será del tipo:           http://localhost:8080/diccionarios/es
