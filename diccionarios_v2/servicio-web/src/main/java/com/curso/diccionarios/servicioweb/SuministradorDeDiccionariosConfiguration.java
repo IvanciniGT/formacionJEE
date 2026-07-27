@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.curso.diccionarios.api.SuministradorDeDiccionarios;
-import com.curso.diccionarios.ficheros.SuministradorDeDiccionariosFicheros;
+import com.curso.diccionarios.ficheros.SuministradorDeDiccionariosEnFicheros;
 
 @Configuration
 // Con esta anotación le decimos a SpringBoot que esta clase 
@@ -17,6 +17,6 @@ public class SuministradorDeDiccionariosConfiguration {
     // Esta función devuelve un objeto que es un componente de mi aplicación de tipo SuministradorDeDiccionarios.
     // Si alguien te pide un SuministradorDeDiccionarios, devuelve lo que devuelve esta función.
     public SuministradorDeDiccionarios dameSuministradorDeDiccionarios(){
-        return new SuministradorDeDiccionariosFicheros("diccionarios");
+        return new SuministradorDeDiccionariosEnFicheros("diccionarios");
     }
 }
