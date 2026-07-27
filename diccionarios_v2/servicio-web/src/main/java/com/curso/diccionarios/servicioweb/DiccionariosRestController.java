@@ -34,6 +34,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.curso.diccionarios.api.SuministradorDeDiccionarios;
+
 @RestController 
 // Esta clase define un COMPONENTE de la aplicación, que define ENDPOINTS HTTP.
 // Solo con esta anotación Spring automáticamente DETECTARA ESTA CLASE
@@ -41,6 +43,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 // Y se encargará de transformar de JSON a JAVA y de JAVA a JSON automáticamente
 // Los datos que mande el cliente al servidor y los que mande el servidor al cliente
 public class DiccionariosRestController {
+
+    private final SuministradorDeDiccionarios suministradorDeDiccionarios; // Necesito un suministrador de diccionarios para poder atender las peticiones HTTP que lleguen a este servicio web REST
+
+    // En el constructor de la clase, pongo como argumento un suministrador de diccionarios
+    // Y lo guardó en una variable interna, mia.
+    // Yo, al crear esta clase (estoy aplicando el principio: SoC: Separation of Concerns), 
+    // no me voy a preocupar de crear un suministrador de diccionarios.
+    // Tampoco me preocupo de dónde sale el suministrador de diccionarios. 
+    // Solo me preocupo de explicitar en el constructor que PRECISO de un suministrador de diccionarios para poder funcionar.
+    // Spring, que es quien va a generar una instancia de esta clase, 
+    // Se encargará de crear un suministrador de diccionarios y pasarlo como argumento al constructor de esta clase.
+    // Esto es lo que llamamos una INYECCION DE DEPENDENCIAS. (Dependency Injection)
+    // LA pregunta es qué va a entregar Spring? Qué suministrador concreto va a entregar.
+    // Lo tengo que configurar... en algo parecido a la factoría que teníamos en la aplicación de consola.
+    public DiccionariosRestController(SuministradorDeDiccionarios suministradorDeDiccionarios) { // Inyección de dependencias: Spring se encarga de crear un suministrador de diccionarios y pasarlo como argumento al constructor de esta clase
+        this.suministradorDeDiccionarios = suministradorDeDiccionarios;
+    }
 
     @GetMapping("/diccionarios/test") // Voy a declarar la ruta /diccionarios/test que atiende el verbo HTTP GET
     // Estas fun ciones vamos a hacer que devuelvan un objeto, Ese objeto lo define Springboot y permite establecer el código de estado HTTP de la respuesta, y el BODY de la respuesta (que puede ser un JSON)
@@ -61,7 +80,14 @@ public class DiccionariosRestController {
     public ResponseEntity<Void> existeDiccionarioDe(@PathVariable("idioma") String idioma) {
                                                 // Este idioma, que es un parámetro JAVA de mi función, 
                                                 // debe obtenerse de la RUTA HTTP que ha sido invocada.
-        if(idioma.equals("es")) {
+        /*if(idioma.equals("es")) {
+            return ResponseEntity.ok().build(); // ResponseEntity.ok devuelve un código de estado 200
+        } else {
+            return ResponseEntity.notFound().build(); // ResponseEntity.notFound() devuelve un código de estado 404
+        }
+            Este código hay que reemplazarlo por una llamada a un suministrador de diccionarios.
+        */
+       if(suministradorDeDiccionarios.tienesDiccionarioDe(idioma)) {
             return ResponseEntity.ok().build(); // ResponseEntity.ok devuelve un código de estado 200
         } else {
             return ResponseEntity.notFound().build(); // ResponseEntity.notFound() devuelve un código de estado 404
