@@ -1,4 +1,0 @@
-abanico=Herramienta que sirve para abanicarse, es decir, para mover el aire y refrescarse.
-manzana=Fruto del manzano, de forma redonda y sabor dulce o ácido.
-melón=Fruto de la planta del melón, de forma redonda u ovalada.|Persona con pocas luces. Eres un melón!
-zapato=Calzado que cubre el pie y parte del tobillo, generalmente de cuero o tela, con suela de goma o cuero.
