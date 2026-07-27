@@ -15,7 +15,7 @@ public class SuministradorDeDiccionariosEnFicheroTest {
     void suministradorTieneDiccionarioQueExisteTest() {
         // Contexto
         // En esa carpeta (que cogerá en automático la que hay en test/resources/diccionarios) hay un diccionario llamado "es.txt"
-        SuministradorDeDiccionarios suministrador = new SuministradorDeDiccionariosEnFicheros("diccionarios");
+        SuministradorDeDiccionarios suministrador = new SuministradorDeDiccionariosEnServicioWeb("diccionarios");
         // Acción a Probar
         boolean tieneDiccionario = suministrador.tienesDiccionarioDe("es");
         // Verificación
@@ -26,7 +26,7 @@ public class SuministradorDeDiccionariosEnFicheroTest {
     void suministradorNoTieneDiccionarioQueNoExisteTest() {
         // Contexto
         // En esa carpeta (que cogerá en automático la que hay en test/resources/diccionarios) hay un diccionario llamado "es.txt"
-        SuministradorDeDiccionarios suministrador = new SuministradorDeDiccionariosEnFicheros("diccionarios");
+        SuministradorDeDiccionarios suministrador = new SuministradorDeDiccionariosEnServicioWeb("diccionarios");
         // Acción a Probar
         boolean tieneDiccionario = suministrador.tienesDiccionarioDe("elfico");
         // Verificación
@@ -38,7 +38,7 @@ public class SuministradorDeDiccionariosEnFicheroTest {
     void dameDiccionarioQueSiExisteTest() {
         // Contexto
         // En esa carpeta (que cogerá en automático la que hay en test/resources/diccionarios) hay un diccionario llamado "es.txt"
-        SuministradorDeDiccionarios suministrador = new SuministradorDeDiccionariosEnFicheros("diccionarios");
+        SuministradorDeDiccionarios suministrador = new SuministradorDeDiccionariosEnServicioWeb("diccionarios");
         // Acción a Probar
         Optional<Diccionario> diccionario = suministrador.dameDiccionarioDe("es");
         // Verificación
@@ -53,7 +53,7 @@ public class SuministradorDeDiccionariosEnFicheroTest {
     void dameDiccionarioQueNoExisteTest() {
         // Contexto
         // En esa carpeta (que cogerá en automático la que hay en test/resources/diccionarios) hay un diccionario llamado "es.txt"
-        SuministradorDeDiccionarios suministrador = new SuministradorDeDiccionariosEnFicheros("diccionarios");
+        SuministradorDeDiccionarios suministrador = new SuministradorDeDiccionariosEnServicioWeb("diccionarios");
         // Acción a Probar
         Optional<Diccionario> diccionario = suministrador.dameDiccionarioDe("elfico");
         // Verificación

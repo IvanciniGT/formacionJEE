@@ -34,7 +34,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
+
+import com.curso.diccionarios.api.Diccionario;
 import com.curso.diccionarios.api.SuministradorDeDiccionarios;
+
+import com.curso.diccionarios.servicioweb.modelos.RespuestaPalabra;
+
 
 @RestController 
 // Esta clase define un COMPONENTE de la aplicación, que define ENDPOINTS HTTP.
@@ -93,5 +98,24 @@ public class DiccionariosRestController {
             return ResponseEntity.notFound().build(); // ResponseEntity.notFound() devuelve un código de estado 404
         }
     }
+
     
+    @GetMapping("/diccionarios/{idioma}/{palabra}")
+    public ResponseEntity<RespuestaPalabra> existePalabra(@PathVariable("idioma") String idioma, @PathVariable("palabra") String palabra) {
+        if(!suministradorDeDiccionarios.tienesDiccionarioDe(idioma)) {
+            return ResponseEntity.status(404).body(new RespuestaPalabra()); // ResponseEntity.notFound() devuelve un código de estado 404
+        } else {
+            // Extraigo el diccionario de ese idioma
+            Diccionario diccionario = suministradorDeDiccionarios.dameDiccionarioDe(idioma).get();
+            if(!diccionario.existe(palabra)) {
+                return ResponseEntity.status(404).body(new RespuestaPalabra(idioma)); // ResponseEntity.notFound() devuelve un código de estado 404
+            } else {
+                // La palabra existe en el diccionario
+                RespuestaPalabra respuesta = new RespuestaPalabra(idioma, palabra, diccionario.dameSignificados(palabra).get());
+                return ResponseEntity.ok(respuesta); // ResponseEntity.ok devuelve un código de estado 200 y pone en el BODY de la respuesta HTTP el
+            }
+        }
+    }
+    // Spring (haciendo uso de una librería llamada Jackson) se encarga de convertir el objeto RespuestaPalabra en un JSON y ponerlo en el BODY de la respuesta HTTP.
+
 }

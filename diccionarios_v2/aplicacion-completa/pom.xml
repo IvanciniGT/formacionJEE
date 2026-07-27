@@ -20,7 +20,8 @@
     <dependencies>
         <dependency>
             <groupId>com.curso</groupId>
-            <artifactId>diccionarios-en-ficheros</artifactId>
+            <!--artifactId>diccionarios-en-ficheros</artifactId>-->
+            <artifactId>diccionarios-en-servicio-web</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>

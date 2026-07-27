@@ -1,7 +1,7 @@
 package com.curso.diccionarios.app.cliente.factorias;
 
 import com.curso.diccionarios.api.SuministradorDeDiccionarios;
-import com.curso.diccionarios.ficheros.SuministradorDeDiccionariosEnFicheros;
+import com.curso.diccionarios.servicioweb.SuministradorDeDiccionariosEnServicioWeb;
 
 public class SuministradorDeDiccionariosFactory {
 
@@ -12,6 +12,7 @@ public class SuministradorDeDiccionariosFactory {
         // - En el IDE y con "mvn exec:java" (los .class y los .txt están sueltos en target/classes)
         // - Y con "java -jar" (los .class y los .txt están comprimidos DENTRO del .jar)
         // Un File NO sabe leer dentro de un .jar; un stream sí.
-        return new SuministradorDeDiccionariosEnFicheros("diccionarios");
+        //return new SuministradorDeDiccionariosEnFicheros("diccionarios");
+        return new SuministradorDeDiccionariosEnServicioWeb("http://localhost:8080/diccionarios");
     }
 }

@@ -38,11 +38,14 @@
     <modules>
         <module>aplicacion-completa</module>
         <module>diccionario-es</module>
+        <module>diccionario-elfico</module>
         <module>diccionario-en</module>
         <module>diccionarios-api</module>
         <module>diccionarios-en-ficheros</module>
+        <module>diccionarios-en-servicio-web</module>
         <module>ui-api</module>
         <module>ui-consola</module>
+        <module>servicio-web</module>
     </modules>
 
     <!--
