@@ -111,7 +111,8 @@ public class DiccionariosRestController {
                 return ResponseEntity.status(404).body(new RespuestaPalabra(idioma)); // ResponseEntity.notFound() devuelve un código de estado 404
             } else {
                 // La palabra existe en el diccionario
-                RespuestaPalabra respuesta = new RespuestaPalabra(idioma, palabra, diccionario.dameSignificados(palabra).get());
+                // OJO con el orden de los argumentos: el constructor es (palabra, idioma, significados)
+                RespuestaPalabra respuesta = new RespuestaPalabra(palabra, idioma, diccionario.dameSignificados(palabra).get());
                 return ResponseEntity.ok(respuesta); // ResponseEntity.ok devuelve un código de estado 200 y pone en el BODY de la respuesta HTTP el
             }
         }

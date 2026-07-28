@@ -109,8 +109,9 @@ public class CargadorDeDatos implements CommandLineRunner{
                 Palabra palabraEntity = new Palabra();
                 palabraEntity.setPalabra(palabra);
                 palabraEntity.setIdioma(idiomaEntity);
-                palabraRepository.save(palabraEntity);
 
+                // Preparo los significados ANTES de guardar la palabra,
+                // y los engancho a la palabra (los dos lados de la relación).
                 List<Significado> significadosEntity = new ArrayList<>();
                 for(String significado : significados){
                     Significado significadoEntity = new Significado();
@@ -119,6 +120,9 @@ public class CargadorDeDatos implements CommandLineRunner{
                     significadosEntity.add(significadoEntity);
                 }
                 palabraEntity.setSignificados(significadosEntity);
+
+                // Un único save: gracias al cascade declarado en la entidad Palabra,
+                // al guardar la palabra se guardan también sus significados.
                 palabraRepository.save(palabraEntity);
             }
             logger.info("Se han cargado " + palabrasYSignificados.size() + " palabras y sus significados para el idioma " + idioma);

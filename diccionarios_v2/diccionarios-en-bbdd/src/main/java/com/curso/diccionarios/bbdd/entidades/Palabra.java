@@ -10,6 +10,7 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
 import java.util.List;
 
 @Entity
@@ -30,7 +31,11 @@ public class Palabra {
     @Column(name = "palabra", nullable = false) // Este campo se guardará en la columna "palabra" de la tabla "palabras"
     private String palabra;
 
-    @OneToMany(mappedBy = "palabra") // Esta anotación indica que esta clase (Palabra) tiene una relación de uno a muchos con la clase Significado. Es decir, una palabra puede tener varios significados. El atributo mappedBy indica que la relación se define en la clase Significado, en el campo "palabra".
+    @OneToMany(mappedBy = "palabra", cascade = CascadeType.ALL, orphanRemoval = true) // Esta anotación indica que esta clase (Palabra) tiene una relación de uno a muchos con la clase Significado. Es decir, una palabra puede tener varios significados. El atributo mappedBy indica que la relación se define en la clase Significado, en el campo "palabra".
+    // cascade = CascadeType.ALL: SIN ESTO, al guardar una Palabra, sus Significados NO SE GUARDAN en la BBDD.
+    // Por defecto JPA solo guarda la entidad que le pasas al repositorio, no las entidades relacionadas.
+    // Con el cascade le decimos: lo que le hagas a la Palabra (guardar, borrar...), háceselo también a sus Significados.
+    // orphanRemoval = true: si quito un significado de la lista, se borra también de la tabla "significados".
     private List<Significado> significados; // Una palabra puede tener varios significados, por lo que este campo es una lista de significados. Esta relación se define en la clase Significado, donde se indica que muchos Significados pueden pertenecer a una misma Palabra.
 
     
