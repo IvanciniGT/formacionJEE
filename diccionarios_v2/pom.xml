@@ -43,6 +43,7 @@
         <module>diccionarios-api</module>
         <module>diccionarios-en-ficheros</module>
         <module>diccionarios-en-servicio-web</module>
+        <module>diccionarios-en-bbdd</module>
         <module>ui-api</module>
         <module>ui-consola</module>
         <module>servicio-web</module>
