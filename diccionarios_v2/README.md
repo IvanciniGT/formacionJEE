@@ -186,3 +186,25 @@ El programa ARRANCA y entonces?
 c:\> mvn package
 c:\> java -jar target/diccionarios-1.1.0.jar "melón" "es"
 
+---
+
+# Arquitectura cliente-servidor: cómo arrancar las 2 partes
+
+Todos los comandos se ejecutan desde esta carpeta (`diccionarios_v2/`).
+
+Primero compila e instala todos los módulos:
+
+    mvn clean install
+
+## 1. Arrancar el servidor (servicio web)
+
+En una terminal, arranca el servicio web (queda escuchando en http://localhost:8080):
+
+    mvn -pl servicio-web spring-boot:run
+
+## 2. Arrancar el cliente (aplicación de consola)
+
+En OTRA terminal (con el servidor ya arrancado), ejecuta el cliente pasándole la palabra y el idioma:
+
+    mvn -pl aplicacion-completa exec:java -Dexec.args="melón es"
+
