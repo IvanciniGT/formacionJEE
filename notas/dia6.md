@@ -231,6 +231,80 @@ En este caso sería:
 HEMOS TERMINADO EL TRABAJO CON LA BBDD.
 Lo que queda es ahora exponer la funcionalidad de esos repositorios a través del api de gestion de diccionarios que habiamos definido.
 
+Después de implementar las clases correcpondientes al api de diccionarios para bbdd, y de cambiar las dependencias en el proyecto de servicio web, el trabajo estaría terminado.... CASI TERMINADO.
+Hay una cosita adicional que no hemos resuelto.
+
+Spring va a arrancar la aplicación.
+Va a crear nuestras tablas en la BBDD...
+Pero hay 2 problemas:
+- En qué BBDD va a crear las tablas? Yo no he configurado nada.
+- Qué datos habrá en esas tablas? Qué palabras?
+
+# Con respecto a la BBDD
+
+Spring, al arrancar, busca un archivo llamado application.properties en el que se puedo indicar la configuración de la BBDD a la que conectarse. Hay varios datos que pondría ahí:
+- Credenciales de acceso a la BBDD (usuario y contraseña)
+- URL de conexión a la BBDD (host, puerto, nombre de la BBDD)
+- Tipo de BBDD (Oracle, MySQL, PostgreSQL, H2, etc...), es decir el dialecto SQL que utiliza la BBDD. Cada BBDD tiene su propio dialecto SQL, y Spring necesita saber cuál es para poder generar las queries SQL correctas.
+- Además debemos especificar el driver JDBC que se necesita para conectarse a la BBDD. Cada BBDD tiene su propio driver JDBC, y Spring necesita saber cuál es para poder conectarse a la BBDD.
+Por ejemplo, para conectar con una BBDD Oracle:
+
+```properties
+spring.datasource.url=jdbc:oracle:thin:@localhost:1521:xe
+spring.datasource.username=usuario
+spring.datasource.password=contraseña
+spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+spring.jpa.database-platform=org.hibernate.dialect.Oracle10gDialect
+```
+En cambio, si mi BBDD fuera un MYSQL:
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/mi_bbdd
+spring.datasource.username=usuario
+spring.datasource.password=contraseña
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
+```
+
+Una gracia de Spring es que me permite en entornos de desarrollo trabajar con una BBDD efímera para hacer pruebas, sin tener la necesidad de instalar ningún motor de BBDD en mi máquina. 
+
+Para ello, Spring me permite trabajar con una BBDD en memoria llamada H2. Esa BBDD, que la usamos muchísimo en JAVA cuando estamos desarrollando, es una BBDD que se ejecuta en memoria, y que cuando apago la aplicación, desaparece. Es decir, no queda ningún dato guardado en disco. Es una BBDD efímera.
+Así siempre que arranco el sistema, empiezo con un entorno limpio, lo que es ideal para hacer pruebas.
+
+Lo único que debo hacer para usar esa BBDD efímera es añadir la dependencia de H2 en el pom.xml del proyecto de servicio web, y Spring se encargará de todo lo demás. No necesito configurar nada más.
+Spring se encarga si detecta que está esa BBDD y que no hay configuración de ninguna otra BBDD, de crear arrancar la BBDD H2 en memoria y configurar la conexión a esa BBDD efímera.
+Es decir, no me hace falta ni siquiera crear el archivo application.properties. Spring se encarga de todo.
+
+Con esto, Spring en nuestro caso, configurará una BBDD H2 en memoria, y creará las tablas que hemos definido en nuestro modelo de datos... pero nos falta una cosa por hacer. 
+
+# Los datos que hay en esas tablas. Es decir, las palabras y sus significados.
+
+Necesitamos cargar los datos en esas tablas. 
+Dado que ahora mismo tenemos los diccionarios en ficheros, lo que vamos a hacer es crear un NUEVO componente que se encargue de leer los diccionarios en ficheros y cargar los datos en la BBDD.
+Ese componente debería ejecuatrse al arrancar la aplicación. Eso sí, deberiamos asegurarnos de que solo se ejecuten los inserts a la BBDD si las tablas están vacías. Si ya hay datos en las tablas, no debería ejecutar los inserts.
+
+Hay un tipo de componente que ofrece Spring que nos permite hacer esto de forma muy sencilla. Se llama CommandLineRunner. Es un componente que se ejecuta en automático al arrancar la aplicación, y que nos permite ejecutar código al arrancar la aplicación.
+
+
+Este programa HAbria que hacer que fuera más o menos inteligente. 
+Solo debería cargar datos en las tablas si no se han cargado ya. Es decir, si las tablas están vacías.
+
+BUENO... eso lo podemos resolver fácil con un IF al principio del código...
+El problema es que eso no sería TAN INTELIGENTE.
+Cubre la carga inicial....
+Pero y si sale una nueva version de la aplciación que AÑADA UN DICCIONARIO NUEVO?
+O si sale una nueva version de la aplciación que AÑADA PALABRAS NUEVAS a un diccionario ya existente?
+Eso no valdría.
+
+A nivel del curso no vamops a complicarlo más.
+
+Si al menos quiero contaros que existen LIBRERIAS ESPECIALIZADAS EN ESTE TIPO DE PROBLEMAS.
+ACTUALIZACIONES DE BBDD en entornos de producción.
+Donde vamos controlando la versión de la BBDD, y de los datos allí desplegados, y vamos aplicando los cambios necesarios para actualizar la BBDD y los datos allí desplegados a la nueva versión de la aplciación.
+
+Posiblemente la más usada sea Liquibase. Pero hay otras como Flyway, etc...
+
+El uso de esas librerías es un curso en si mismo.. y se escapa del alcance de esta formación.
 ---
 
 JEE
@@ -241,3 +315,34 @@ Posteriormente se rebautizó como JEE, significando Jakarta Enterprise Edition.
 A su vez, JEE es una colección de estándares que definen cómo debe ser una aplicación empresarial en JAVA.
 Uno de ellos es el estándar JPA (Java Persistence API), que define cómo debe ser una aplicación empresarial en JAVA que trabaje con BBDD Relacionales.
 
+
+
+
+---
+
+RESULTADO FINAL:
+
+
+Versión primera:
+> Aplicación cliente -> diccionarios-api <- diccionarios-en-ficheros
+>                    -> interfaz-de-usuarios <- terminal
+>                    -> ficheros de idiomas
+
+Segunda versión:
+> Aplicación cliente -> diccionarios-api <- diccionarios-en-servicio-web <-protoc. http-> servicio-web -> diccionarios-api <- diccionarios-en-ficheros
+                                            -----------------------------------------------------------
+>                    -> interfaz-de-usuarios <- terminal
+>                                                                                                      -> ficheros de idiomas
+
+Tercera versión:
+
+> Aplicación cliente -> diccionarios-api <- diccionarios-en-servicio-web <-protoc. http-> servicio-web -> diccionarios-api <- diccionarios-en-bbdd
+                                            -----------------------------------------------------------
+>                    -> interfaz-de-usuarios <- terminal
+>                                                                                                      -> ficheros de idiomas
+
+Gracias a la estructura MODULAR de nuestro sistema, hemos sido capaces de hacer este cambiho con un IMPACTO MINIMO en el resto del sistema.
+Básicamente solo hemos tirado a la basura el componente diccionarios-en-ficheros y lo hemos reemplazado por el componente diccionarios-en-bbdd.
+Hemos tenido que modificar un poquito el proyecto de servicio web para que encuentre el nuevo componente diccionarios-en-bbdd, por estar en un paquete diferente al paquete en el que esté el proyecto de servicio web... pero incluso ese cambio ha sido mínimo.
+
+Tenemos una nueva versión TOTALMENTE FUNCIONAL de nuestro sistema, que ahora trabaja con BBDD en lugar de ficheros para almacenar los diccionarios y sus palabras y significados.

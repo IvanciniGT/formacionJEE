@@ -52,8 +52,40 @@
         </dependency>
         <dependency>
             <groupId>com.curso</groupId>
-            <artifactId>diccionarios-en-ficheros</artifactId>
+            <!--<artifactId>diccionarios-en-ficheros</artifactId>-->
+            <artifactId>diccionarios-en-bbdd</artifactId>
             <version>1.0.0</version>
+        </dependency>
+        <!-- Dependencia de la BBDD en memoria H2-->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+            <!--<scope>test</scope>-->
+            <!-- 
+            Habitualmente esta BBDD se usa solo para las pruebas
+            Lo normal es incluirla con el scpe TEST
+            En nuestro caso, como no tenemos otra BBDD la vamos a usar para todo, así que no le ponemos el scope TEST
+            En un entorno real, pondríamos el scope TEST y tendríamos otra BBDD para producción.
+            Y necesitariamos en este archivo declarar la dependencia del driver de la BBDD de producción.
+            si por ejemplo fuera un MySQL:
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>8.0.33</version>
+                <scope>runtime</scope>
+            </dependency>
+            Si fuera un sqlserver:
+            <dependency>
+                <groupId>com.microsoft.sqlserver</groupId>
+                <artifactId>mssql-jdbc</artifactId>
+                <version>12.2.0.jre8</version>
+                <scope>runtime</scope>
+            </dependency>
+            Y en este caso, necesitaría crear un fichero application.properties 
+            en la carpeta src/main/resources con la configuración de la BBDD de producción.
+            (tal y como está descrito en el fichero notas/dia6.md del repositorio)
+            -->
         </dependency>
         <dependency>
             <groupId>com.curso</groupId>
