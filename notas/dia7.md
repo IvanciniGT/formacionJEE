@@ -361,3 +361,32 @@ Si queremos obtener un listado de las 10 palabras más parecidas a una palabra d
 1. Calcular la distancia de Levenshtein entre la palabra que se ha buscado y todas las palabras del diccionario en el idioma determinado
 2. Ordenar las palabras por distancia de Levenshtein de menor a mayor
 3. Y quedarnos con las 10 palabras que tengan la distancia de Levenshtein más pequeña.
+
+Esto convertiría a nuestro sistema en una herramienta ideal para montar un corrector ortográfico, ya que cuando el usuario escriba una palabra mal, el sistema le devolverá un listado de las palabras más parecidas a la que ha escrito, y el usuario podrá elegir la palabra correcta del listado.
+
+---
+
+Una mejora opcional en el programa sería:
+- Hemos dicho que hay que calcular la distancia de Levenshtein entre la palabra que se ha buscado y todas las palabras del diccionario en el idioma determinado. Esto puede ser muy costoso en tiempo de ejecución si el diccionario tiene muchas palabras. 
+
+Aquñi podemos hacer una simplicación. 
+Si 2 palabras son de longigtud muy diferente (por ejemplo más de 3 caracteres de diferencia), es muy probable que no sean parecidas. Por tanto, podemos descartar esas palabras y no calcular la distancia de Levenshtein entre ellas y la palabra que se ha buscado. Esto nos permitirá reducir el tiempo de ejecución del programa.
+El calcular la distancia de Levenshtein entre 2 palabras es una operación costosa en tiempo de ejecución.
+
+La distancia va a ser al menos la diferencia de longitud entre las 2 palabras.
+    Mar vs Margarita 
+    La distancia sería al menos 6
+    MarGARITA
+        Para pasar de Mar a Margarita, hay que añadir 6 caracteres: G, A, R, I, T, A
+
+Si la longitud de 2 palabras es mayor de 3, directamente descartamos esa palabra y no calculamos la distancia de Levenshtein entre ellas y la palabra que se ha buscado. 
+
+Además, no es ya solo que no tenga que calcular la distancia de Levenshtein entre esas 2 palabras, sino que además no necesitaré ordenar esa palabra en el listado de palabras más parecidas, ya que no va a ser una de las 10 palabras más parecidas a la palabra que se ha buscado. Y las ordenaciones también son muy pesadas en términos computacionales. Por tanto, cuanto menos palabras tenga que ordenar, mejor.
+Es más, si al calcular una distancia de levensthein obtengo un valor superior a 3, puedo descartar esa palabra y no meto en la ordenación.
+
+    manzana
+    melón           2 caracteres de longitud... todavía aceptable
+
+    Distancia de Levenshtein entre manzana y melón:
+    manzana
+    √el-ó√-    Distancia de 5 (DESCARTADA)

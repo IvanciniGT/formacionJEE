@@ -25,4 +25,9 @@ public interface Diccionario {
     // Pero no es algo que nos interese ahora mismo para mi aplicación.
     // Si el día de mañana me hace falta, lo puedo añadir. Pero ahora no lo necesito.
 
+    default List<String> palabrasSimilares(String palabra) {
+        // Esto lo hacemos para que todo el proyecto siga compilando.
+        throw new UnsupportedOperationException("Este método no está implementado en esta clase");
+    }
+
 }
