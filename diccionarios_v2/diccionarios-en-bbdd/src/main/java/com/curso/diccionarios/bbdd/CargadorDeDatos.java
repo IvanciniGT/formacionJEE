@@ -97,7 +97,8 @@ public class CargadorDeDatos implements CommandLineRunner{
             Map<String, List<String>> palabrasYSignificados = leerFicheroDeIdioma(carpetaDeDiccionarios, idioma);
             // Dar de alta el idioma en la tabla de idiomas, si no existe ya.
             Idioma idiomaEntity = new Idioma();
-            idiomaEntity.setCodigo(idioma);
+            // CAMBIO: Voy a guardar el código del Idioma en mayúsculas
+            idiomaEntity.setCodigo(NormalizadorDeTerminos.normalizar(idioma));
             idiomaRepository.save(idiomaEntity);
             // Para cada palabra y sus significados, vamos a dar de alta la palabra en la tabla de palabras, con sus significados en la tabla de significados.
             for(Map.Entry<String, List<String>> entrada : palabrasYSignificados.entrySet()){
@@ -107,7 +108,8 @@ public class CargadorDeDatos implements CommandLineRunner{
                 // Para ello, vamos a necesitar una función que nos permita dar de alta una palabra con sus significados en la BBDD.
                 // Esa función la vamos a implementar en el repositorio de palabras.
                 Palabra palabraEntity = new Palabra();
-                palabraEntity.setPalabra(palabra);
+                // CAMBIO: Voy a guardar la palabra en mayúsculas
+                palabraEntity.setPalabra(NormalizadorDeTerminos.normalizar(palabra));
                 palabraEntity.setIdioma(idiomaEntity);
 
                 // Preparo los significados ANTES de guardar la palabra,

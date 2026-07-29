@@ -25,11 +25,11 @@ public class DiccionarioEnBBDD implements Diccionario {
     }
 
     public boolean existe(String palabra){
-        return palabraRepository.existsByPalabraAndIdioma_Codigo(palabra, idioma); // Este método devuelve true si existe una palabra en un idioma determinado por su código de idioma y la palabra en sí. Esto es útil para evitar duplicados.
+        return palabraRepository.existsByPalabraAndIdioma_Codigo(NormalizadorDeTerminos.normalizar(palabra), idioma);
     }
 
     public Optional<List<String>> dameSignificados(String palabra){
-        Optional<Palabra> palabraOptional = palabraRepository.findByPalabraAndIdioma_Codigo(palabra, idioma);
+        Optional<Palabra> palabraOptional = palabraRepository.findByPalabraAndIdioma_Codigo(NormalizadorDeTerminos.normalizar(palabra), idioma);
         if(palabraOptional.isPresent()){
             List<Significado> significados = palabraOptional.get().getSignificados();
             // Lo que debo devolver es un listado de Strings, no de Significados, por lo que debo transformar la lista de Significados en una lista de Strings. Para ello, voy a usar un stream y el método map para transformar cada Significado en su String correspondiente.

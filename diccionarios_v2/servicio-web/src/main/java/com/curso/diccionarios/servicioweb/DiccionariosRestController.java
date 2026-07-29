@@ -31,6 +31,9 @@ necesitamos escribir una anotación antes del nombre de la clase:
  */
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -78,6 +81,12 @@ public class DiccionariosRestController {
         // ResponseEntity.status(201).body("Error interno del servidor") devuelve
     }
 
+    @GetMapping("/diccionarios")
+    public ResponseEntity<List<String>> idiomas() {
+        List<String> listadoDeIdiomas = suministradorDeDiccionarios.dameIdiomas();
+        return ResponseEntity.ok(listadoDeIdiomas);
+    }
+
 
     // PAra cada ruta, tengo que declarar una función (con el nombre que quiera usar)
     // Y esa fdunción la tengo que ANOTAR dependiendo del VERBO/METODO HTTP que vaya a atender en su ruta:
@@ -92,7 +101,7 @@ public class DiccionariosRestController {
         }
             Este código hay que reemplazarlo por una llamada a un suministrador de diccionarios.
         */
-       if(suministradorDeDiccionarios.tienesDiccionarioDe(idioma)) {
+        if(suministradorDeDiccionarios.tienesDiccionarioDe(idioma)) {
             return ResponseEntity.ok().build(); // ResponseEntity.ok devuelve un código de estado 200
         } else {
             return ResponseEntity.notFound().build(); // ResponseEntity.notFound() devuelve un código de estado 404

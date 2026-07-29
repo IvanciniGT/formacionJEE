@@ -6,8 +6,12 @@ import org.springframework.stereotype.Component;
 
 import com.curso.diccionarios.api.Diccionario;
 import com.curso.diccionarios.api.SuministradorDeDiccionarios;
+import com.curso.diccionarios.bbdd.entidades.Idioma;
 import com.curso.diccionarios.bbdd.repositorios.IdiomaRepository;
 import com.curso.diccionarios.bbdd.repositorios.PalabraRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 // Esta anotación hace que si alguien pide un SuministradorDeDiccionarios,
@@ -24,17 +28,25 @@ public class SuministradorDeDiccionariosEnBBDD implements SuministradorDeDiccion
     }
 
     public boolean tienesDiccionarioDe(String idioma){
-        return idiomasRepository.existsByCodigo(idioma); // Este método devuelve true si existe un idioma en la BBDD con el código de idioma especificado. Esto es útil para saber si podemos crear un diccionario para ese idioma.
+        return idiomasRepository.existsByCodigo(NormalizadorDeTerminos.normalizar(idioma));
     }
 
     public Optional<Diccionario> dameDiccionarioDe(String idioma){
-        boolean existe = idiomasRepository.existsByCodigo(idioma);
+        boolean existe = idiomasRepository.existsByCodigo(NormalizadorDeTerminos.normalizar(idioma));
         if(!existe){
             return Optional.empty();
         } else {
-            Diccionario diccionario = new DiccionarioEnBBDD(idioma, palabraRepository);
+            Diccionario diccionario = new DiccionarioEnBBDD(NormalizadorDeTerminos.normalizar(idioma), palabraRepository);
             return Optional.of(diccionario);
         }
     }
-    
+
+    public List<String> dameIdiomas() {
+        List<Idioma> idiomas = idiomasRepository.findAll();
+        List<String> listadoCodigos = new ArrayList<String>();
+        for(Idioma idioma : idiomas){
+            listadoCodigos.add(idioma.getCodigo());
+        }
+        return listadoCodigos;
+    }
 }
