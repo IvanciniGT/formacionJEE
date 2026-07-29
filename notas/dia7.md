@@ -369,8 +369,8 @@ Esto convertiría a nuestro sistema en una herramienta ideal para montar un corr
 Una mejora opcional en el programa sería:
 - Hemos dicho que hay que calcular la distancia de Levenshtein entre la palabra que se ha buscado y todas las palabras del diccionario en el idioma determinado. Esto puede ser muy costoso en tiempo de ejecución si el diccionario tiene muchas palabras. 
 
-Aquñi podemos hacer una simplicación. 
-Si 2 palabras son de longigtud muy diferente (por ejemplo más de 3 caracteres de diferencia), es muy probable que no sean parecidas. Por tanto, podemos descartar esas palabras y no calcular la distancia de Levenshtein entre ellas y la palabra que se ha buscado. Esto nos permitirá reducir el tiempo de ejecución del programa.
+Aquí podemos hacer una simplificación.
+Si 2 palabras son de longitud muy diferente (por ejemplo más de 3 caracteres de diferencia), es muy probable que no sean parecidas. Por tanto, podemos descartar esas palabras y no calcular la distancia de Levenshtein entre ellas y la palabra que se ha buscado. Esto nos permitirá reducir el tiempo de ejecución del programa.
 El calcular la distancia de Levenshtein entre 2 palabras es una operación costosa en tiempo de ejecución.
 
 La distancia va a ser al menos la diferencia de longitud entre las 2 palabras.
