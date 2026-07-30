@@ -59,7 +59,8 @@ public class Aplicacion {
                     Diccionario diccionario = suministradorDeDiccionarios.dameDiccionarioDe(idiomaDelUsuario.get()).get();
                     boolean existeLaPalabra = diccionario.existe(palabraDelUsuario.get());
                     if(!existeLaPalabra) {
-                        interfazDeUsuario.mostrarQueLaPalabraNoExiste(palabraDelUsuario.get(), idiomaDelUsuario.get());
+                        List<String> similares = diccionario.palabrasSimilares(palabraDelUsuario.get());
+                        interfazDeUsuario.mostrarQueLaPalabraNoExiste(palabraDelUsuario.get(), idiomaDelUsuario.get(), similares);
                     } else {
                         interfazDeUsuario.mostrarQueLaPalabraExiste(palabraDelUsuario.get(), idiomaDelUsuario.get());
                         List<String> significados = diccionario.dameSignificados(palabraDelUsuario.get()).get();

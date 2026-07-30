@@ -15,6 +15,8 @@ import com.curso.diccionarios.bbdd.repositorios.PalabraRepository;
 
 public class DiccionarioEnBBDD implements Diccionario {
 
+    public static final int DISTANCIA_MAXIMA_ADMISIBLE = 2; // Definimos una constante para la distancia máxima admisible entre palabras. Esto nos permite cambiar el valor de la distancia máxima admisible en un solo lugar, y nos permite entender mejor el código, ya que el nombre de la constante es más descriptivo que un número mágico.
+
     private final String idioma;
     private final PalabraRepository palabraRepository;
 
@@ -46,14 +48,15 @@ public class DiccionarioEnBBDD implements Diccionario {
         }        
     }
 
+
     public List<String> palabrasSimilares(String palabraObjetivo) {
 
-        List<Palabra> palabrasDelDiccionario = palabraRepository.findAll();
+        List<Palabra> palabrasDelDiccionario = palabraRepository.findByIdioma_Codigo(idioma);
         return palabrasDelDiccionario.stream()
                 .map(      palabra         -> palabra.getPalabra())
-                .filter(   palabra         -> Math.abs(palabra.length() - palabraObjetivo.length()) <= 3                                )
+                .filter(   palabra         -> Math.abs(palabra.length() - palabraObjetivo.length()) <= DISTANCIA_MAXIMA_ADMISIBLE                                )
                 .map(      palabra         -> new PalabraPuntuada(palabra, DistanciaLevensthein.distance(palabraObjetivo, palabra))      )
-                .filter(   palabraPuntuada -> palabraPuntuada.getDistancia() < 3                                                        )
+                .filter(   palabraPuntuada -> palabraPuntuada.getDistancia() <= DISTANCIA_MAXIMA_ADMISIBLE                                                        )
                 .sorted(   Comparator.comparingInt(PalabraPuntuada::getDistancia)                                                       )
                 .map(      palabraPuntuada -> palabraPuntuada.getPalabra()                                                              )
                 .limit(10)

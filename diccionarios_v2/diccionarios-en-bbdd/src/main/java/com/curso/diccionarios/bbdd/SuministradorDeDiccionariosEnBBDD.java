@@ -13,6 +13,8 @@ import com.curso.diccionarios.bbdd.repositorios.PalabraRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+
+// CAPA DAO = Data Access Object
 @Component
 // Esta anotación hace que si alguien pide un SuministradorDeDiccionarios,
 // SpringBoot le devuelva un objeto de esta clase.

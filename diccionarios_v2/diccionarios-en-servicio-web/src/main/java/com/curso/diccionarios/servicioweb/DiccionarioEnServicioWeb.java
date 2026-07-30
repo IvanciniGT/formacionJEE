@@ -73,6 +73,12 @@ public class DiccionarioEnServicioWeb implements Diccionario {
     }
 
     public List<String> palabrasSimilares(String palabra) {
-        
+        Optional<RespuestaPalabra> respuesta = llamarAlServicioWeb(palabra);
+        if (respuesta.isPresent()) {
+            RespuestaPalabra resp = respuesta.get();
+            return resp.getSimilares();
+        } else {
+            return List.of(); // Retorno una lista vacía si no hay respuesta del servicio web
+        }
     }
 }

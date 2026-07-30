@@ -3,6 +3,7 @@ package com.curso.diccionarios.bbdd.repositorios;
 import com.curso.diccionarios.bbdd.entidades.Palabra;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
+import java.util.List;
 
 public interface PalabraRepository extends JpaRepository<Palabra, Integer> {
     
@@ -12,5 +13,7 @@ public interface PalabraRepository extends JpaRepository<Palabra, Integer> {
     // buscando una palabra (palabra) en un idioma (idioma) a través de su código de idioma(codigo). 
     // Y me genera la query SQL correspondiente para buscar en la BBDD.
     Optional<Palabra> findByPalabraAndIdioma_Codigo(String palabra, String codigo);
+
+    List<Palabra> findByIdioma_Codigo(String codigo);
 
 }

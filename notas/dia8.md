@@ -277,3 +277,18 @@ Es simple: Lo que necesitamos hacer es marcar la función desde la que estamos h
 
 De 130 segundos hemos pasado a 65 segundos.
 Cada 10k ahora tardan 1.2 segundos
+
+---
+
+Por qué mantenemos 2 clases IGUALES (RespuestaPalabra) en el proyecto?
+Eso no era una mala práctica?
+EN ESTE CASO NO ES UNA MALA PRACTICA. De hecho es una buena práctica.
+
+Una cosa es lo que manda el servidor.
+Otra cosa es lo que espera el cliente (en este caso nuestro cliente es la interfaz de usuario de terminal).
+
+Puede ser que se haya modificado el proyecto del servidor, añadiendo un campo para las palabras similares, y que el cliente no lo necesite, o no lo esté usando por ahora.
+
+Por eso nos interesan 2 clases independientes.
+Por momentos serán iguales.
+Por momentos serán diferentes. Y ESO ESTA BIEN!
