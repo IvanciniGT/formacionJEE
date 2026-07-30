@@ -117,7 +117,14 @@ public class DiccionariosRestController {
             // Extraigo el diccionario de ese idioma
             Diccionario diccionario = suministradorDeDiccionarios.dameDiccionarioDe(idioma).get();
             if(!diccionario.existe(palabra)) {
-                return ResponseEntity.status(404).body(new RespuestaPalabra(idioma)); // ResponseEntity.notFound() devuelve un código de estado 404
+                // AQUI ES DONDE DEBEMOS EMPEZAR A HACER CAMBIOS.
+                // En este caso, lo que haremos será preguntar a nuestro 
+                // El diccionario necesitará acceso a todas las palabras.
+                // Dado que estamos usando el diccioanrio de BBDD, al Repositorio de Palabras
+                // Es al que le voy a pedir (en el diccioanrio) el listado de todas las palabras.
+                // Por las palabras similares a la palabra que nos ha pedido el cliente.
+                List<String> palabrasSimilares = diccionario.palabrasSimilares(palabra);
+                return ResponseEntity.status(404).body(new RespuestaPalabra(idioma, palabrasSimilares)); // ResponseEntity.notFound() devuelve un código de estado 404
             } else {
                 // La palabra existe en el diccionario
                 // OJO con el orden de los argumentos: el constructor es (palabra, idioma, significados)

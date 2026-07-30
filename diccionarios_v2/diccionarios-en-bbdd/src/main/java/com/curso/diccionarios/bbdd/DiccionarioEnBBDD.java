@@ -1,10 +1,13 @@
 package com.curso.diccionarios.bbdd;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import com.curso.diccionarios.api.Diccionario;
+import com.curso.diccionarios.api.DistanciaLevensthein;
 import com.curso.diccionarios.bbdd.entidades.Palabra;
 import com.curso.diccionarios.bbdd.entidades.Significado;
 import com.curso.diccionarios.bbdd.repositorios.PalabraRepository;
@@ -40,6 +43,39 @@ public class DiccionarioEnBBDD implements Diccionario {
             return Optional.of(significadosADevolver);
         } else {
             return Optional.empty();
+        }        
+    }
+
+    public List<String> palabrasSimilares(String palabraObjetivo) {
+
+        List<Palabra> palabrasDelDiccionario = palabraRepository.findAll();
+        return palabrasDelDiccionario.stream()
+                .map(      palabra         -> palabra.getPalabra())
+                .filter(   palabra         -> Math.abs(palabra.length() - palabraObjetivo.length()) <= 3                                )
+                .map(      palabra         -> new PalabraPuntuada(palabra, DistanciaLevensthein.distance(palabraObjetivo, palabra))      )
+                .filter(   palabraPuntuada -> palabraPuntuada.getDistancia() < 3                                                        )
+                .sorted(   Comparator.comparingInt(PalabraPuntuada::getDistancia)                                                       )
+                .map(      palabraPuntuada -> palabraPuntuada.getPalabra()                                                              )
+                .limit(10)
+                .collect(Collectors.toList());
+    }
+
+    private static class PalabraPuntuada {
+        private String palabra;
+        private int distancia;
+
+        public PalabraPuntuada(String palabra, int distancia) {
+            this.palabra = palabra;
+            this.distancia = distancia;
+        }
+
+        public String getPalabra() {
+            return palabra;
+        }
+
+        public int getDistancia() {
+            return distancia;
         }
     }
+
 }

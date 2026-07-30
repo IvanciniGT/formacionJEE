@@ -9,6 +9,7 @@ public class RespuestaPalabra {
     private String palabra;
     private String idioma;
     private List<String> significados;
+    private List<String> similares;
 
     public RespuestaPalabra(String palabra, String idioma, List<String> significados) {
         this.palabra = palabra;
@@ -17,6 +18,10 @@ public class RespuestaPalabra {
     }
     public RespuestaPalabra(String idioma) {
         this.idioma = idioma;
+    }
+    public RespuestaPalabra(String idioma, List<String> similares) {
+        this.idioma = idioma;
+        this.similares = similares;
     }
     public RespuestaPalabra() {
     }
@@ -31,5 +36,9 @@ public class RespuestaPalabra {
 
     public List<String> getSignificados() {
         return significados;
+    }
+
+    public List<String> getSimilares() {
+        return similares;
     }
 }
