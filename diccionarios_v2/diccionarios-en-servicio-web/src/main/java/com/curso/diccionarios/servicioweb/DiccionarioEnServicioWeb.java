@@ -71,4 +71,8 @@ public class DiccionarioEnServicioWeb implements Diccionario {
             return Optional.empty();
         }
     }
+
+    public List<String> palabrasSimilares(String palabra) {
+        
+    }
 }

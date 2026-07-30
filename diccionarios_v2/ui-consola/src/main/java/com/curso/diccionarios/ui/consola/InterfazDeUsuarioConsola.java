@@ -29,9 +29,20 @@ public class InterfazDeUsuarioConsola implements InterfazDeUsuario {
     public void mostrarQueLaPalabraExiste(String palabra, String idioma){
         System.out.println("La palabra " + palabra + " existe en el diccionario de " + idioma + ", y significa:");
     }
+
     public void mostrarQueLaPalabraNoExiste(String palabra, String idioma){
-        System.out.println("La palabra " + palabra + " no existe en el diccionario de " + idioma + ".");
+        this.mostrarQueLaPalabraNoExiste(palabra, idioma, null);
     }
+    public void mostrarQueLaPalabraNoExiste(String palabra, String idioma, List<String> similares){
+        System.out.println("La palabra " + palabra + " no existe en el diccionario de " + idioma + ".");
+        if(similares != null && !similares.isEmpty()) {
+            System.out.println("Quizás quiso decir alguna de estas palabras:");
+            for(String similar : similares) {
+                System.out.println("- " + similar);
+            }
+        }
+    }
+
     public void mostrarSignificados(List<String> significados){
         for(String significado : significados) {
             System.out.println("- " + significado);

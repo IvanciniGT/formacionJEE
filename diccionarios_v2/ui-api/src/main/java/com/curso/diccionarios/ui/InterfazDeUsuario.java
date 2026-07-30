@@ -11,7 +11,14 @@ public interface InterfazDeUsuario {
     void mostrarMensajeDespedida();
     void mostrarMensajeAyuda();
     void mostrarQueLaPalabraExiste(String palabra, String idioma);
+    
+    @Deprecated
     void mostrarQueLaPalabraNoExiste(String palabra, String idioma);
+    
+    default void mostrarQueLaPalabraNoExiste(String palabra, String idioma, List<String> similares){
+        throw new UnsupportedOperationException("No implementado aún");
+    }
+    
     void mostrarSignificados(List<String> significados);
     void mostrarQueNoTengoDiccionarioDe(String idioma);
 
