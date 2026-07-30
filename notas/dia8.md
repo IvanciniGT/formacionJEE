@@ -246,3 +246,34 @@ public class BuscadorDePalabrasSimilares {
     }
 }
 ```
+
+
+2 segundos cada 10.000 palabras.
+Si tenemos 650.000 palabras, tardará 130 segundos (2 minutos y 10 segundos) en procesarlas todas.
+Realmente no es una locura... Dada una carga inicial.
+El problema es que cada plaalabra que cargamos en la BBDD, cada insert, hace COMMIT.
+Lo ideal sería evitar que se haga commit en cada palabra.
+Un commit (una confirmacion de escritura en la BBDD) es una operación muy costosa.
+Podríamos hacer un único commit al final de la carga de todas las palabras.
+
+Sería hacer todos esos inserts en una transacción de BBDD y hacer commit al final.
+
+Si estuvieramos trabajando con SQL:
+
+```sql
+BEGIN TRANSACTION;
+INSERT INTO palabras (palabra) VALUES ('abanico');
+INSERT INTO palabras (palabra) VALUES ('acariciar');
+...
+INSERT INTO palabras (palabra) VALUES ('zanahoria');
+COMMIT;
+```
+
+Pero nosotros no estamos trabajando con SQL, estamos trabajando con JPA(JEE) y Hibernate.
+
+Cómo podemos hacer esto? 
+Es simple: Lo que necesitamos hacer es marcar la función desde la que estamos haciendo los inserts como transaccional. Spring/JPA nos permite hacer esto con la anotación @Transactional.
+
+
+De 130 segundos hemos pasado a 65 segundos.
+Cada 10k ahora tardan 1.2 segundos

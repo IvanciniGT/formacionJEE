@@ -15,6 +15,8 @@ import com.curso.diccionarios.bbdd.entidades.Significado;
 import com.curso.diccionarios.bbdd.repositorios.IdiomaRepository;
 import com.curso.diccionarios.bbdd.repositorios.PalabraRepository;
 
+import jakarta.transaction.Transactional;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -66,6 +68,7 @@ public class CargadorDeDatos implements CommandLineRunner{
     // Spring me regala un objeto Logger que puedo usar para escribir en el log de la aplicación.
     // Ese objeto Logger lo puedo obtener de la clase LoggerFactory de Spring.
     // Para ello, voy a crear un objeto Logger en esta clase, y lo voy a inicializar con el objeto LoggerFactory de Spring, pasándole como parámetro el nombre de esta clase
+    @Transactional
     public void run(String... args) throws Exception {
 
         logger.info("Cargando datos iniciales en la BBDD desde la carpeta de diccionarios: " + carpetaDeDiccionarios);
@@ -101,31 +104,44 @@ public class CargadorDeDatos implements CommandLineRunner{
             idiomaEntity.setCodigo(NormalizadorDeTerminos.normalizar(idioma));
             idiomaRepository.save(idiomaEntity);
             // Para cada palabra y sus significados, vamos a dar de alta la palabra en la tabla de palabras, con sus significados en la tabla de significados.
+            long tiempoInicio = System.currentTimeMillis();
+            int palabrasCargadas = 0;
             for(Map.Entry<String, List<String>> entrada : palabrasYSignificados.entrySet()){
-                String palabra = entrada.getKey();
-                List<String> significados = entrada.getValue();
-                // Dar de alta la palabra en la tabla de palabras, con sus significados en la tabla de significados.
-                // Para ello, vamos a necesitar una función que nos permita dar de alta una palabra con sus significados en la BBDD.
-                // Esa función la vamos a implementar en el repositorio de palabras.
-                Palabra palabraEntity = new Palabra();
-                // CAMBIO: Voy a guardar la palabra en mayúsculas
-                palabraEntity.setPalabra(NormalizadorDeTerminos.normalizar(palabra));
-                palabraEntity.setIdioma(idiomaEntity);
+                try{
+                    String palabra = entrada.getKey();
+                    List<String> significados = entrada.getValue();
+                    // Dar de alta la palabra en la tabla de palabras, con sus significados en la tabla de significados.
+                    // Para ello, vamos a necesitar una función que nos permita dar de alta una palabra con sus significados en la BBDD.
+                    // Esa función la vamos a implementar en el repositorio de palabras.
+                    Palabra palabraEntity = new Palabra();
+                    // CAMBIO: Voy a guardar la palabra en mayúsculas
+                    palabraEntity.setPalabra(NormalizadorDeTerminos.normalizar(palabra));
+                    palabraEntity.setIdioma(idiomaEntity);
 
-                // Preparo los significados ANTES de guardar la palabra,
-                // y los engancho a la palabra (los dos lados de la relación).
-                List<Significado> significadosEntity = new ArrayList<>();
-                for(String significado : significados){
-                    Significado significadoEntity = new Significado();
-                    significadoEntity.setSignificado(significado);
-                    significadoEntity.setPalabra(palabraEntity);
-                    significadosEntity.add(significadoEntity);
+                    // Preparo los significados ANTES de guardar la palabra,
+                    // y los engancho a la palabra (los dos lados de la relación).
+                    List<Significado> significadosEntity = new ArrayList<>();
+                    for(String significado : significados){
+                        Significado significadoEntity = new Significado();
+                        significadoEntity.setSignificado(significado);
+                        significadoEntity.setPalabra(palabraEntity);
+                        significadosEntity.add(significadoEntity);
+                    }
+                    palabraEntity.setSignificados(significadosEntity);
+
+                    // Un único save: gracias al cascade declarado en la entidad Palabra,
+                    // al guardar la palabra se guardan también sus significados.
+                    palabraRepository.save(palabraEntity);
+                } catch(Exception e){
+                    logger.error("Error al cargar la palabra " + entrada.getKey() + " y sus significados en la BBDD para el idioma " + idioma + "Posiblemente aparece en mayúsculas y minúsculas", e);
                 }
-                palabraEntity.setSignificados(significadosEntity);
-
-                // Un único save: gracias al cascade declarado en la entidad Palabra,
-                // al guardar la palabra se guardan también sus significados.
-                palabraRepository.save(palabraEntity);
+                palabrasCargadas++;
+                if(palabrasCargadas%10000 == 0){
+                    long tiempoActual = System.currentTimeMillis();
+                    long tiempoTranscurrido = tiempoActual - tiempoInicio;
+                    tiempoInicio = tiempoActual;
+                    logger.info("Se han cargado " + palabrasCargadas + " palabras y sus significados para el idioma " + idioma + " en " + tiempoTranscurrido + " ms");
+                }
             }
             logger.info("Se han cargado " + palabrasYSignificados.size() + " palabras y sus significados para el idioma " + idioma);
         }
