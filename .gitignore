@@ -29,3 +29,6 @@ bin/
 
 # Logs
 *.log
+
+# Artefactos de herramientas de navegador (Playwright MCP)
+.playwright-mcp/
