@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.curso</groupId>
+        <artifactId>diccionarios</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>ui-escritorio</artifactId>
+    <version>1.0.0</version>
+
+    <name>Interfaz de usuario de escritorio (JavaFX)</name>
+
+    <packaging>jar</packaging>
+
+    <properties>
+        <version.de.javafx>21.0.6</version.de.javafx>
+    </properties>
+
+    <dependencies>
+
+        <!--
+        CONTRATO 1: la interfaz de usuario "clásica" del curso.
+        La necesitamos para el ACTO 1: InterfazDeUsuarioEscritorio implementa
+        este contrato, exactamente igual que hace InterfazDeUsuarioConsola.
+        -->
+        <dependency>
+            <groupId>com.curso</groupId>
+            <artifactId>ui-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!--
+        CONTRATO 2: la fachada de negocio.
+        La necesitamos para el ACTO 2: la ventana autónoma consume directamente
+        SuministradorDeDiccionarios, igual que hace la aplicación web de Angular.
+
+        OJO A LO QUE **NO** HAY AQUÍ: este módulo NO depende de
+        diccionarios-en-servicio-web, ni de diccionarios-en-bbdd, ni de
+        diccionarios-en-ficheros. La interfaz de usuario NO decide de dónde
+        salen los diccionarios: sólo conoce la abstracción. Quien decide es la
+        factoría, que vive en aplicacion-completa (principio DIP).
+        -->
+        <dependency>
+            <groupId>com.curso</groupId>
+            <artifactId>diccionarios-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!--
+        JavaFX: el kit de construcción de interfaces gráficas de escritorio.
+
+        Hasta Java 10, JavaFX venía DENTRO del JDK. A partir de Java 11 se sacó
+        fuera y hoy es una dependencia más, que se descarga de Maven Central
+        como cualquier otra librería. Es el mismo movimiento que sufrieron
+        CORBA y JAX-WS (ver notas/temario-y-equivalencias.md): el JDK ha ido
+        adelgazando y lo que antes venía "de serie" hoy se declara en el pom.
+
+        PARTICULARIDAD IMPORTANTE: JavaFX no es Java puro. Por debajo tiene
+        código NATIVO (compilado para un sistema operativo y un procesador
+        concretos), porque las ventanas las pinta el sistema operativo, no la
+        JVM. Por eso cada dependencia lleva un <classifier>: un mismo artefacto
+        publicado en varias variantes (mac, mac-aarch64, win, linux...).
+
+        El valor de ${javafx.plataforma} lo decide automáticamente uno de los
+        perfiles definidos más abajo, según la máquina donde se compile. Así el
+        proyecto funciona igual en el Mac del profesor y en los Windows de los
+        alumnos, sin tocar nada.
+        -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${version.de.javafx}</version>
+            <classifier>${javafx.plataforma}</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${version.de.javafx}</version>
+            <classifier>${javafx.plataforma}</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${version.de.javafx}</version>
+            <classifier>${javafx.plataforma}</classifier>
+        </dependency>
+
+    </dependencies>
+
+    <!--
+    PERFILES: bloques de configuración que Maven activa o desactiva según las
+    condiciones que le indiquemos. Aquí la condición es el sistema operativo y
+    la arquitectura del procesador de la máquina que está compilando.
+
+    Es la primera vez en el curso que usamos perfiles, y es un buen ejemplo de
+    para qué sirven: MISMO pom.xml, comportamiento distinto según el entorno.
+    En una empresa se usan constantemente para lo mismo con los entornos de
+    desarrollo, pruebas y producción.
+    -->
+    <profiles>
+        <profile>
+            <id>javafx-mac-intel</id>
+            <activation>
+                <os><family>mac</family><arch>x86_64</arch></os>
+            </activation>
+            <properties><javafx.plataforma>mac</javafx.plataforma></properties>
+        </profile>
+        <profile>
+            <id>javafx-mac-apple-silicon</id>
+            <activation>
+                <os><family>mac</family><arch>aarch64</arch></os>
+            </activation>
+            <properties><javafx.plataforma>mac-aarch64</javafx.plataforma></properties>
+        </profile>
+        <profile>
+            <id>javafx-windows</id>
+            <activation>
+                <os><family>windows</family></os>
+            </activation>
+            <properties><javafx.plataforma>win</javafx.plataforma></properties>
+        </profile>
+        <profile>
+            <id>javafx-linux</id>
+            <activation>
+                <os><family>unix</family><name>linux</name><arch>amd64</arch></os>
+            </activation>
+            <properties><javafx.plataforma>linux</javafx.plataforma></properties>
+        </profile>
+        <profile>
+            <id>javafx-linux-aarch64</id>
+            <activation>
+                <os><family>unix</family><name>linux</name><arch>aarch64</arch></os>
+            </activation>
+            <properties><javafx.plataforma>linux-aarch64</javafx.plataforma></properties>
+        </profile>
+    </profiles>
+
+</project>

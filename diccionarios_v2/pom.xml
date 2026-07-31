@@ -46,6 +46,7 @@
         <module>diccionarios-en-bbdd</module>
         <module>ui-api</module>
         <module>ui-consola</module>
+        <module>ui-escritorio</module>
         <module>servicio-web</module>
     </modules>
 

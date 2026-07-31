@@ -1,0 +1,231 @@
+/*
+ * Hoja de estilos de la interfaz de escritorio.
+ *
+ * Sí: JavaFX se estiliza con CSS, igual que una página web. No es el CSS del
+ * navegador (las propiedades empiezan por -fx-), pero la idea es la misma y el
+ * beneficio también: la APARIENCIA vive aquí y la LÓGICA vive en el .java.
+ *
+ * Es la misma separación que en la aplicación web de Angular, donde cada
+ * componente tiene su .ts y su .css. Y es, una vez más, separación de
+ * responsabilidades: se puede cambiar entero el aspecto de la aplicación sin
+ * tocar una sola línea de Java.
+ *
+ * Los nombres que empiezan por un guion (-color-fondo, -color-acento...) son
+ * "colores consultables" de JavaFX: se definen una vez y se reutilizan. Es lo
+ * que permite que el botón de tema claro/oscuro funcione cambiando UNA clase.
+ */
+
+.raiz {
+    -color-fondo:       #f6f7f9;
+    -color-superficie:  #ffffff;
+    -color-borde:       #dfe3e8;
+    -color-texto:       #1c2126;
+    -color-texto-suave: #667180;
+    -color-acento:      #2f6fed;
+    -color-acento-flojo:#e8f0fe;
+    -color-aviso:       #b4530a;
+    -color-error:       #c0392b;
+
+    -fx-background-color: -color-fondo;
+    -fx-font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+}
+
+/* Tema oscuro: se activa añadiendo la clase "oscuro" al nodo raíz. */
+.raiz.oscuro {
+    -color-fondo:       #14181d;
+    -color-superficie:  #1c2229;
+    -color-borde:       #2c343d;
+    -color-texto:       #e8ecf1;
+    -color-texto-suave: #9aa5b1;
+    -color-acento:      #6ea0ff;
+    -color-acento-flojo:#22303f;
+    -color-aviso:       #e0a458;
+    -color-error:       #ef6b5e;
+}
+
+/* ---------------------------------------------------------------- cabecera */
+
+.titulo {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-texto;
+}
+
+.subtitulo {
+    -fx-font-size: 12px;
+    -fx-text-fill: -color-texto-suave;
+}
+
+.boton-tema {
+    -fx-font-size: 14px;
+    -fx-background-color: -color-superficie;
+    -fx-border-color: -color-borde;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-min-width: 38;
+    -fx-min-height: 38;
+    -fx-cursor: hand;
+}
+
+.boton-tema:hover {
+    -fx-border-color: -color-acento;
+}
+
+/* -------------------------------------------------------------- formulario */
+
+.text-field, .combo-box {
+    -fx-font-size: 14px;
+    -fx-background-color: -color-superficie;
+    -fx-text-fill: -color-texto;
+    -fx-prompt-text-fill: -color-texto-suave;
+    -fx-border-color: -color-borde;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8 12 8 12;
+}
+
+.text-field:focused, .combo-box:focused {
+    -fx-border-color: -color-acento;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: -color-texto;
+    -fx-background-color: transparent;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: -color-superficie;
+    -fx-border-color: -color-borde;
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: -color-acento-flojo;
+}
+
+.boton-primario {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-color: -color-acento;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 9 20 9 20;
+    -fx-cursor: hand;
+}
+
+.boton-primario:hover {
+    -fx-opacity: 0.9;
+}
+
+.boton-primario:disabled {
+    -fx-opacity: 0.45;
+}
+
+/* --------------------------------------------------------------- resultados */
+
+.zona-scroll, .zona-scroll .viewport {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.zona-scroll {
+    -fx-border-color: transparent;
+}
+
+.panel-resultados {
+    -fx-padding: 4 2 4 2;
+}
+
+.tarjeta {
+    -fx-background-color: -color-superficie;
+    -fx-background-radius: 12;
+    -fx-border-color: -color-borde;
+    -fx-border-radius: 12;
+    -fx-padding: 18;
+}
+
+.tarjeta-error {
+    -fx-border-color: -color-error;
+}
+
+.palabra-encontrada {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-texto;
+}
+
+.palabra-no-encontrada {
+    -fx-font-size: 16px;
+    -fx-text-fill: -color-texto;
+}
+
+.etiqueta-idioma {
+    -fx-font-size: 12px;
+    -fx-text-fill: -color-texto-suave;
+}
+
+.significado {
+    -fx-font-size: 14px;
+    -fx-text-fill: -color-texto;
+}
+
+.ayuda {
+    -fx-font-size: 13px;
+    -fx-text-fill: -color-texto-suave;
+}
+
+.mensaje-vacio {
+    -fx-font-size: 14px;
+    -fx-text-fill: -color-texto-suave;
+    -fx-padding: 16 0 0 2;
+}
+
+/* Cada palabra sugerida es un botón pulsable que lanza una búsqueda nueva. */
+.chip {
+    -fx-font-size: 13px;
+    -fx-background-color: -color-acento-flojo;
+    -fx-text-fill: -color-acento;
+    -fx-background-radius: 16;
+    -fx-padding: 6 14 6 14;
+    -fx-cursor: hand;
+}
+
+.chip:hover {
+    -fx-background-color: -color-acento;
+    -fx-text-fill: white;
+}
+
+.error-titulo {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-error;
+}
+
+.error-detalle {
+    -fx-font-size: 13px;
+    -fx-text-fill: -color-texto-suave;
+}
+
+/* ------------------------------------------------- líneas sueltas (Acto 1) */
+
+.linea {
+    -fx-font-size: 14px;
+    -fx-text-fill: -color-texto;
+}
+
+.linea-destacada {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -color-texto;
+}
+
+.linea-aviso {
+    -fx-font-size: 14px;
+    -fx-text-fill: -color-aviso;
+}
+
+.linea-codigo {
+    -fx-font-family: "Menlo", "Consolas", monospace;
+    -fx-font-size: 13px;
+    -fx-text-fill: -color-texto-suave;
+}

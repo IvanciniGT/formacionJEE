@@ -29,6 +29,16 @@
             <artifactId>ui-consola</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <!--
+        La interfaz de usuario de escritorio (JavaFX).
+        Fijaos en que ui-consola SIGUE AQUÍ: las dos implementaciones conviven
+        sin estorbarse, y quien elige cuál se usa es la factoría.
+        -->
+        <dependency>
+            <groupId>com.curso</groupId>
+            <artifactId>ui-escritorio</artifactId>
+            <version>1.0.0</version>
+        </dependency>
         <dependency>
             <groupId>com.curso</groupId>
             <artifactId>diccionario-en</artifactId>
@@ -61,6 +71,43 @@
                 <configuration>
                     <mainClass>com.curso.diccionarios.app.cliente.Aplicacion</mainClass>
                 </configuration>
+                <!--
+                Dos atajos para arrancar los dos actos de la sesión:
+
+                    mvn -pl aplicacion-completa exec:exec@acto1
+                    mvn -pl aplicacion-completa exec:exec@acto2
+
+                ¿Por qué exec:exec y no el exec:java de siempre?
+                Porque exec:java ejecuta nuestro código DENTRO del proceso de
+                Maven y en un hilo secundario, y las ventanas gráficas en macOS
+                exigen el hilo principal del proceso. exec:exec lanza una JVM
+                nueva y limpia, como haría un doble clic sobre el programa.
+                Es un detalle muy de escritorio y muy fácil de sufrir.
+                -->
+                <executions>
+                    <execution>
+                        <id>acto1</id>
+                        <configuration>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <classpath/>
+                                <argument>com.curso.diccionarios.app.cliente.Aplicacion</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>acto2</id>
+                        <configuration>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <classpath/>
+                                <argument>com.curso.diccionarios.app.cliente.LanzadorDeEscritorio</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
