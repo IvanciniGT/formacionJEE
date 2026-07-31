@@ -1,0 +1,51 @@
+.tarjeta {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  box-shadow: var(--sombra);
+}
+
+.no-encontrada {
+  margin: 0 0 0.75rem;
+  font-size: 1.15rem;
+}
+
+.no-encontrada strong {
+  color: var(--color-acento);
+  text-transform: lowercase;
+}
+
+.ayuda {
+  margin: 0 0 0.75rem;
+  color: var(--color-texto-tenue);
+}
+
+.sugerencias {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  cursor: pointer;
+  border: 1px solid var(--color-borde);
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.95rem;
+  transition: background 0.15s, border-color 0.15s, transform 0.05s;
+}
+
+.chip:hover {
+  border-color: var(--color-acento);
+  color: var(--color-acento);
+}
+
+.chip:active {
+  transform: translateY(1px);
+}

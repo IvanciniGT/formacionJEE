@@ -1,0 +1,50 @@
+/* Estilos globales y variables de tema (claro/oscuro). */
+
+:root {
+  /* Tema claro (por defecto). */
+  --color-fondo: #f5f6f8;
+  --color-superficie: #ffffff;
+  --color-borde: #dfe3e8;
+  --color-texto: #1c2430;
+  --color-texto-tenue: #6b7684;
+  --color-acento: #e8590c;
+  --color-acento-suave: rgba(232, 89, 12, 0.16);
+  --color-error-fondo: #fdecec;
+  --color-error-borde: #f5b5b5;
+  --color-error-texto: #a02020;
+  --sombra: 0 4px 16px rgba(20, 30, 50, 0.06);
+}
+
+:root[data-tema='oscuro'] {
+  --color-fondo: #12161c;
+  --color-superficie: #1b212b;
+  --color-borde: #2c343f;
+  --color-texto: #e7ecf2;
+  --color-texto-tenue: #9aa5b3;
+  --color-acento: #ff922b;
+  --color-acento-suave: rgba(255, 146, 43, 0.22);
+  --color-error-fondo: #3a1f22;
+  --color-error-borde: #6e3437;
+  --color-error-texto: #f0a9ab;
+  --sombra: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+  transition: background 0.2s ease, color 0.2s ease;
+}

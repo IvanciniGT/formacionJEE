@@ -1,0 +1,20 @@
+<article class="tarjeta">
+  <p class="no-encontrada">
+    No se ha encontrado <strong>{{ palabra() }}</strong>.
+  </p>
+
+  @if (sugerencias().length > 0) {
+    <p class="ayuda">¿Quizás quisiste decir…?</p>
+    <ul class="sugerencias">
+      @for (sugerencia of sugerencias(); track sugerencia) {
+        <li>
+          <button type="button" class="chip" (click)="seleccion.emit(sugerencia)">
+            {{ sugerencia }}
+          </button>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="ayuda">No hay sugerencias para esta palabra.</p>
+  }
+</article>

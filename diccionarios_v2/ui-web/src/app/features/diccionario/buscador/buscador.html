@@ -1,0 +1,75 @@
+<section class="buscador">
+  <form class="formulario" (ngSubmit)="buscar()">
+    <div class="campo-idioma">
+      <label class="etiqueta" for="idioma">Idioma</label>
+      <select
+        id="idioma"
+        class="select"
+        [ngModel]="idiomaSeleccionado()"
+        (ngModelChange)="idiomaSeleccionado.set($event)"
+        name="idioma"
+      >
+        @for (idioma of idiomas(); track idioma.codigo) {
+          <option [value]="idioma.codigo">{{ idioma.bandera }} {{ idioma.nombre }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="campo-palabra">
+      <label class="etiqueta" for="palabra">Palabra</label>
+      <input
+        id="palabra"
+        class="input"
+        type="text"
+        autocomplete="off"
+        placeholder="Escribe una palabra…"
+        [ngModel]="termino()"
+        (ngModelChange)="termino.set($event)"
+        name="palabra"
+      />
+    </div>
+
+    <button class="boton" type="submit" [disabled]="!idiomaSeleccionado() || !termino().trim()">
+      Buscar
+    </button>
+  </form>
+
+  <div class="resultados" aria-live="polite">
+    @switch (estado()) {
+      @case ('inicial') {
+        <p class="mensaje-inicial">
+          Elige un idioma y busca una palabra para ver sus significados.
+        </p>
+      }
+      @case ('cargando') {
+        <div class="cargando" role="status">
+          <span class="spinner" aria-hidden="true"></span>
+          <span>Buscando…</span>
+        </div>
+      }
+      @case ('error') {
+        <div class="error" role="alert">
+          <p>{{ mensajeError() }}</p>
+          <button type="button" class="boton-secundario" (click)="buscar()">Reintentar</button>
+        </div>
+      }
+      @case ('resultado') {
+        @let r = resultado();
+        @if (r) {
+          @if (r.encontrada) {
+            <app-resultado-significados
+              [palabra]="r.palabra"
+              [significados]="r.significados"
+            />
+          } @else {
+            <app-palabras-similares
+              [palabra]="r.palabra"
+              [sugerencias]="r.sugerencias"
+              (seleccion)="seleccionarSugerencia($event)"
+            />
+          }
+        }
+      }
+    }
+  </div>
+</section>

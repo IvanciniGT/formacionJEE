@@ -1,0 +1,8 @@
+<article class="tarjeta">
+  <h2 class="palabra">{{ palabra() }}</h2>
+  <ol class="significados">
+    @for (significado of significados(); track $index) {
+      <li>{{ significado }}</li>
+    }
+  </ol>
+</article>
